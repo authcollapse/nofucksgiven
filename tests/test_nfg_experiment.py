@@ -65,6 +65,23 @@ def test_nfg_same_plaintext_with_different_nonce_changes_ciphertext() -> None:
     assert first.ciphertext != second.ciphertext
 
 
+def test_nfg_explicit_nonce_encryption_is_deterministic() -> None:
+    cipher = NfgCipher(FIXED_KEY)
+
+    first = cipher.encrypt_with_nonce(FIXED_NONCE, b"message", b"context")
+    second = cipher.encrypt_with_nonce(FIXED_NONCE, b"message", b"context")
+
+    assert first == second
+
+
+def test_nfg_random_nonce_encryption_is_nondeterministic_in_sample() -> None:
+    cipher = NfgCipher(FIXED_KEY)
+    sealed_messages = [cipher.encrypt(b"message", b"context") for _ in range(64)]
+
+    assert len({sealed.nonce for sealed in sealed_messages}) == len(sealed_messages)
+    assert len({sealed.ciphertext for sealed in sealed_messages}) == len(sealed_messages)
+
+
 def test_nfg_wrong_key_is_rejected() -> None:
     first = NfgCipher(FIXED_KEY)
     second = NfgCipher(b"\xff" * NFG_KEY_SIZE)
@@ -102,6 +119,42 @@ def test_nfg_tampered_nonce_is_rejected() -> None:
         cipher.decrypt(NfgSealedMessage(tampered_nonce, sealed.ciphertext), b"context")
 
 
+def test_nfg_appended_ciphertext_bytes_are_rejected() -> None:
+    cipher = NfgCipher(FIXED_KEY)
+    sealed = cipher.encrypt_with_nonce(FIXED_NONCE, b"message", b"context")
+
+    with pytest.raises(ValueError, match="authentication failed"):
+        cipher.decrypt(NfgSealedMessage(sealed.nonce, sealed.ciphertext + b"\x00"), b"context")
+
+
+def test_nfg_removed_ciphertext_byte_is_rejected() -> None:
+    cipher = NfgCipher(FIXED_KEY)
+    sealed = cipher.encrypt_with_nonce(FIXED_NONCE, b"message", b"context")
+
+    with pytest.raises(ValueError, match="authentication failed"):
+        cipher.decrypt(NfgSealedMessage(sealed.nonce, sealed.ciphertext[:-1]), b"context")
+
+
+def test_nfg_spliced_body_and_tag_are_rejected() -> None:
+    cipher = NfgCipher(FIXED_KEY)
+    first = cipher.encrypt_with_nonce(FIXED_NONCE, b"first message", b"context")
+    second_nonce = bytes([FIXED_NONCE[0] ^ 1]) + FIXED_NONCE[1:]
+    second = cipher.encrypt_with_nonce(second_nonce, b"second message", b"context")
+    spliced = first.ciphertext[:-NFG_TAG_SIZE] + second.ciphertext[-NFG_TAG_SIZE:]
+
+    with pytest.raises(ValueError, match="authentication failed"):
+        cipher.decrypt(NfgSealedMessage(first.nonce, spliced), b"context")
+
+
+def test_nfg_different_aad_changes_tag_not_body() -> None:
+    cipher = NfgCipher(FIXED_KEY)
+    first = cipher.encrypt_with_nonce(FIXED_NONCE, b"message", b"context-a")
+    second = cipher.encrypt_with_nonce(FIXED_NONCE, b"message", b"context-b")
+
+    assert first.ciphertext[:-NFG_TAG_SIZE] == second.ciphertext[:-NFG_TAG_SIZE]
+    assert first.ciphertext[-NFG_TAG_SIZE:] != second.ciphertext[-NFG_TAG_SIZE:]
+
+
 def test_nfg_rejects_wrong_key_size() -> None:
     with pytest.raises(ValueError, match="32-byte key"):
         NfgCipher(b"too-short")
@@ -134,6 +187,40 @@ def test_nfg_nonce_reuse_exposes_plaintext_xor_failure_mode() -> None:
     xor_plaintexts = bytes(a ^ b for a, b in zip(left_plaintext, right_plaintext, strict=True))
 
     assert xor_ciphertexts == xor_plaintexts
+
+
+def test_nfg_nonce_reuse_same_plaintext_reveals_equal_ciphertext_body() -> None:
+    cipher = NfgCipher(FIXED_KEY)
+    plaintext = b"same message body"
+    first = cipher.encrypt_with_nonce(FIXED_NONCE, plaintext, b"context-a")
+    second = cipher.encrypt_with_nonce(FIXED_NONCE, plaintext, b"context-b")
+
+    assert first.ciphertext[:-NFG_TAG_SIZE] == second.ciphertext[:-NFG_TAG_SIZE]
+    assert first.ciphertext[-NFG_TAG_SIZE:] != second.ciphertext[-NFG_TAG_SIZE:]
+
+
+def test_nfg_zero_plaintext_exposes_keystream_for_key_nonce_pair() -> None:
+    cipher = NfgCipher(FIXED_KEY)
+    plaintext = b"known plaintext block"
+    zero_stream = cipher.encrypt_with_nonce(FIXED_NONCE, b"\x00" * len(plaintext), b"context")
+    encrypted = cipher.encrypt_with_nonce(FIXED_NONCE, plaintext, b"context")
+
+    keystream = zero_stream.ciphertext[:-NFG_TAG_SIZE]
+    encrypted_body = encrypted.ciphertext[:-NFG_TAG_SIZE]
+    recovered = bytes(
+        keystream_item ^ encrypted_item
+        for keystream_item, encrypted_item in zip(keystream, encrypted_body, strict=True)
+    )
+
+    assert recovered == plaintext
+
+
+def test_nfg_replay_same_message_still_decrypts() -> None:
+    cipher = NfgCipher(FIXED_KEY)
+    sealed = cipher.encrypt_with_nonce(FIXED_NONCE, b"message", b"context")
+
+    assert cipher.decrypt(sealed, b"context") == b"message"
+    assert cipher.decrypt(sealed, b"context") == b"message"
 
 
 def test_nfg_nonce_reuse_known_plaintext_recovers_other_plaintext() -> None:

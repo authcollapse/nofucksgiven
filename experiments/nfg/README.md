@@ -33,10 +33,19 @@ failures?
 - Deterministic local datasets in `datasets.py`.
 - Dataset manifest in `corpus.json`.
 - Fixed snapshot vector in `vectors.json`.
+- Failure notes in `attacks.md`.
 - Round trips across empty, text, structured, repeated, and seeded-random inputs.
 - Wrong key, wrong AAD, nonce tampering, ciphertext tampering, and tag tampering.
 - A nonce-reuse failure demo showing why stream-style reuse is dangerous.
+- Bit-flip sensitivity checks for key, nonce, plaintext, and AAD changes.
 - Snapshot vectors so accidental behavior changes are visible.
+
+## Current Observations
+
+- Key and nonce bit flips broadly change the sealed output in deterministic local checks.
+- AAD bit flips change the tag, not the ciphertext body, which is expected for authenticated associated data.
+- Plaintext bit flips change exactly one ciphertext-body bit before the tag is considered. That stream-style shape is simple and testable, but it is not a diffusion breakthrough.
+- NFG-v1 should target a clearly stated improvement before changing code: misuse resistance, a better nonce story, a stronger construction argument, or a measured failure reduction.
 
 ## Caveats
 
