@@ -1,5 +1,5 @@
 """Research helpers for encryption experiments."""
 
-from nofucksgiven.baselines import AeadCipher, SealedMessage
+from nofucksgiven.baselines import AEAD_SPECS, AeadAlgorithm, AeadCipher, SealedMessage
 
-__all__ = ["AeadCipher", "SealedMessage"]
+__all__ = ["AEAD_SPECS", "AeadAlgorithm", "AeadCipher", "SealedMessage"]
