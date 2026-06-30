@@ -31,6 +31,17 @@ def test_current_local_baselines_include_local_experiments() -> None:
 
     assert "known_answer_vectors" in by_name["AES-GCM-256"].local_experiments
     assert "known_answer_vectors" in by_name["ChaCha20-Poly1305"].local_experiments
+    assert by_name["NFG-v0"].evidence_score == 12
+    assert "nonce_reuse_failure_demos" in by_name["NFG-v0"].local_experiments
+
+
+def test_nfg_ranks_as_experimental_lab_entry() -> None:
+    _, algorithms = load_leaderboard()
+    ranks = {algorithm.name: rank for rank, algorithm in enumerate(algorithms, start=1)}
+
+    assert ranks["NFG-v0"] == 11
+    assert ranks["NFG-v0"] > ranks["Triple DES / TDEA"]
+    assert ranks["NFG-v0"] < ranks["DES"]
 
 
 def test_rendered_leaderboard_contains_warning_and_rankings() -> None:
@@ -38,5 +49,6 @@ def test_rendered_leaderboard_contains_warning_and_rankings() -> None:
     markdown = render_markdown(payload["criteria"], algorithms)
 
     assert "not a proof of security" in markdown
-    assert "| Rank | Algorithm |" in markdown
+    assert '<div class="nfg-standings">' in markdown
     assert "AES-GCM-256" in markdown
+    assert "NFG-v0" in markdown

@@ -30,6 +30,7 @@ The local test suite covers known-answer vectors, property tests, tamper rejecti
 
 - NFG-v0 lives under `experiments/nfg/`.
 - It is a toy symmetric encryption scaffold for datasets, vectors, misuse tests, and benchmark plumbing.
+- It sits at #11 on the evidence leaderboard with score 12: cool lab toy, zero public-review swagger.
 - It is not for real data.
 
 ## Local Setup

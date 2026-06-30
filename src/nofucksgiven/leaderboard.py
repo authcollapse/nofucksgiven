@@ -90,6 +90,7 @@ def _status_badge(status: str) -> str:
         "recommended_constrained_devices": ("constrained devices", "lab"),
         "recommended_when_available": ("extended nonce", "lab"),
         "acceptable_when_composed_correctly": ("compose carefully", "lab"),
+        "experimental_lab": ("lab build", "lab"),
         "avoid_for_new_work": ("avoid", "avoid"),
         "do_not_use_for_secret_data": ("do not use", "avoid"),
         "deprecated_or_withdrawn": ("withdrawn", "avoid"),
@@ -107,6 +108,8 @@ def _experiment_label(experiments: tuple[str, ...]) -> str:
         "round_trip_property_tests": "round trips",
         "tamper_rejection_tests": "tamper rejection",
         "benchmark_smoke": "benchmark smoke",
+        "deterministic_datasets": "deterministic datasets",
+        "nonce_reuse_failure_demos": "nonce-reuse failure demos",
     }
     return ", ".join(short_names.get(item, item.replace("_", " ")) for item in experiments)
 
@@ -143,6 +146,27 @@ def _podium_card(algorithm: AlgorithmEvidence, rank: int) -> list[str]:
         f"### {algorithm.name}",
         f'<p class="nfg-tagline">{tagline}</p>',
         "</div>",
+        "",
+    ]
+
+
+def _standings_card(algorithm: AlgorithmEvidence, rank: int) -> list[str]:
+    top_class = " nfg-competitor--top" if rank <= 3 else ""
+    nfg_class = " nfg-competitor--nfg" if algorithm.name == "NFG-v0" else ""
+    experiments = _experiment_label(algorithm.local_experiments)
+    caution = algorithm.cautions[0] if algorithm.cautions else "Bring evidence before bragging."
+    return [
+        f'<article class="nfg-competitor{top_class}{nfg_class}">',
+        f'  <div class="nfg-competitor__rank">#{rank}</div>',
+        '  <div class="nfg-competitor__main">',
+        f"    <h3>{algorithm.name}</h3>",
+        f"    <p>{algorithm.family}</p>",
+        "  </div>",
+        f"  <div>{_status_badge(algorithm.status)}</div>",
+        f'  <div class="nfg-competitor__score">{algorithm.evidence_score}</div>',
+        f'  <div class="nfg-competitor__detail"><strong>Local reps:</strong> {experiments}</div>',
+        f'  <div class="nfg-competitor__detail"><strong>Caution:</strong> {caution}</div>',
+        "</article>",
         "",
     ]
 
@@ -196,25 +220,15 @@ def render_markdown(criteria: dict[str, int], algorithms: list[AlgorithmEvidence
             "",
             "## Leaderboard",
             "",
-            '<div class="nfg-board" markdown>',
-            "",
-            "| Rank | Algorithm | Family | Status | Evidence Score | Local Experiments | Main Caution |",
-            "| ---: | --- | --- | --- | ---: | --- | --- |",
+            '<div class="nfg-standings">',
         ]
     )
 
     for rank, algorithm in enumerate(algorithms, start=1):
-        rank_label = f'<span class="nfg-medal">{rank}</span>' if rank <= 3 else str(rank)
-        experiments = _experiment_label(algorithm.local_experiments)
-        caution = algorithm.cautions[0] if algorithm.cautions else ""
-        lines.append(
-            f"| {rank_label} | {algorithm.name} | {algorithm.family} | {_status_badge(algorithm.status)} | "
-            f"{algorithm.evidence_score} | {experiments} | {caution} |"
-        )
+        lines.extend(_standings_card(algorithm, rank))
 
     lines.extend(
         [
-            "",
             "</div>",
             "",
             "## Source Tags",
@@ -230,7 +244,7 @@ def render_markdown(criteria: dict[str, int], algorithms: list[AlgorithmEvidence
             "## How To Read This",
             "",
             "- A high score means stronger public evidence and safer default shape, not guaranteed safety.",
-            "- Local experiments currently cover only algorithms implemented in `src/nofucksgiven/baselines.py`.",
+            "- Local experiments currently cover algorithms implemented in `src/nofucksgiven/baselines.py` and the NFG-v0 scaffold under `experiments/nfg/`.",
             "- Performance benchmarks belong beside environment metadata; they do not increase security.",
             "- Legacy algorithms stay on the board so we can test that our tooling rejects or warns on them.",
             "",

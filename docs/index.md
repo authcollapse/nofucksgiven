@@ -49,6 +49,15 @@ No fucks given to crypto theater. Plenty of fucks given to test vectors, threat 
 </div>
 </div>
 
+<div class="nfg-lab-card" markdown>
+<div>
+<div class="nfg-rank">Experimental undercard | #11 | score 12</div>
+### NFG-v0
+<p class="nfg-tagline">Our in-house symmetric-encryption lab build. It has datasets, vectors, tamper tests, nonce-reuse failure demos, and absolutely no permission to touch real data.</p>
+</div>
+<a class="nfg-button" href="leaderboard/#leaderboard">See where it lands</a>
+</div>
+
 ## What You Can Do Here
 
 | Goal | Where to start |

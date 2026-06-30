@@ -171,6 +171,29 @@
       "sources": ["NIST SP 800-67 withdrawal", "NIST SP 800-131A"]
     },
     {
+      "name": "NFG-v0",
+      "family": "Original experiment",
+      "status": "experimental_lab",
+      "score_components": {
+        "standard_status": 0,
+        "security_margin": 0,
+        "auth_integrity": 7,
+        "misuse_resistance": 0,
+        "review_maturity": 5
+      },
+      "local_experiments": [
+        "deterministic_datasets",
+        "known_answer_vectors",
+        "round_trip_property_tests",
+        "tamper_rejection_tests",
+        "nonce_reuse_failure_demos",
+        "benchmark_smoke"
+      ],
+      "strengths": ["Useful scaffold for experiments", "Has authenticated encryption plumbing and misuse tests"],
+      "cautions": ["No public cryptanalysis", "No standard", "Not for real data"],
+      "sources": ["local experiment only"]
+    },
+    {
       "name": "RC4",
       "family": "Legacy stream cipher",
       "status": "do_not_use",
@@ -200,7 +223,7 @@
       "local_experiments": [],
       "strengths": ["Historical relevance only"],
       "cautions": ["56-bit key is far below modern security requirements", "Replaced by AES"],
-      "sources": ["NIST FIPS 197"]
+      "sources": ["NIST FIPS 46-3 withdrawal", "NIST SP 800-131A"]
     }
   ]
 }
