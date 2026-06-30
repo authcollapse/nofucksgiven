@@ -14,6 +14,7 @@ flowchart TD
     VECTORS["Test vectors<br/>fixed keys, nonce, AAD, plaintext, ciphertext"]
     TESTS["Correctness and misuse tests<br/>round trip, tamper, wrong key, wrong AAD"]
     BENCH["Benchmarks<br/>encrypt, decrypt, roundtrip, payload sizes"]
+    BOARD["Evidence leaderboard<br/>public sources plus local experiments"]
     LOG["Experiment log<br/>hypothesis, method, results, caveats"]
     REVIEW["Review gate<br/>threat model, cryptanalysis notes, outside review"]
     CLAIM["Claim discipline<br/>performance evidence only unless security is reviewed"]
@@ -25,7 +26,8 @@ flowchart TD
     EXPERIMENT --> VECTORS
     VECTORS --> TESTS
     TESTS --> BENCH
-    BENCH --> LOG
+    BENCH --> BOARD
+    BOARD --> LOG
     LOG --> REVIEW
     REVIEW --> CLAIM
 ```

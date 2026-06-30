@@ -1,4 +1,4 @@
-.PHONY: setup test lint format format-check claims docs-check check bench-smoke clean
+.PHONY: setup test lint format format-check claims docs-check leaderboard check bench-smoke clean
 
 VENV ?= .venv
 PYTHON ?= $(VENV)/bin/python
@@ -26,7 +26,10 @@ claims:
 docs-check:
 	$(PYTHON) scripts/check_internal_links.py
 
-check: format-check lint claims docs-check test
+leaderboard:
+	$(PYTHON) scripts/render_leaderboard.py
+
+check: leaderboard format-check lint claims docs-check test
 
 bench-smoke:
 	$(PYTHON) benchmarks/bench_aead.py --iterations 10 --sizes 64 1024

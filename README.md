@@ -45,6 +45,7 @@ Run these from the repository root after Quickstart.
 | Lint | `.venv/bin/ruff check .` |
 | Format | `.venv/bin/ruff format .` |
 | Standard check | `make check` |
+| Render leaderboard | `make leaderboard` |
 | Benchmark smoke run | `.venv/bin/python benchmarks/bench_aead.py --iterations 10 --sizes 64 1024` |
 | Default benchmark matrix | `.venv/bin/python benchmarks/bench_aead.py` |
 | Install git hooks | `scripts/install-hooks.sh` |
@@ -109,6 +110,7 @@ Benchmark numbers are machine-local signals, not security claims.
 ## Documentation
 
 - [Development map](docs/development-map.md)
+- [Encryption evidence leaderboard](docs/leaderboard.md)
 - [Research roadmap](docs/roadmap.md)
 - [Threat model](docs/threat-model.md)
 - [Safety notes](docs/safety-notes.md)
