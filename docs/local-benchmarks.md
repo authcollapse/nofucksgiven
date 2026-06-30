@@ -7,8 +7,8 @@ and they do not change the evidence leaderboard by themselves.
 
 | Field | Value |
 | --- | --- |
-| Date | 2026-06-30T23:52:20+04:00 |
-| OS | Linux 6.19.14+kali-amd64 x86_64 |
+| Date | 2026-06-30T19:52:20Z |
+| OS | Kali 2026.2 |
 | CPU | Intel Core i5-9400F CPU @ 2.90GHz |
 | Virtualization | VMware |
 | Python | 3.13.12 |
