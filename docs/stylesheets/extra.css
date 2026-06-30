@@ -135,12 +135,62 @@
   margin: 0.35rem 0 0;
 }
 
+.nfg-board {
+  max-width: 100%;
+  overflow-x: auto;
+  padding-bottom: 0.15rem;
+}
+
+.nfg-board .md-typeset__table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 .nfg-board table {
-  font-size: 0.82rem;
+  display: table;
+  width: 100%;
+  min-width: 760px;
+  table-layout: fixed;
+  font-size: 0.72rem;
 }
 
 .nfg-board th {
   white-space: nowrap;
+}
+
+.nfg-board td,
+.nfg-board th {
+  overflow-wrap: anywhere;
+  vertical-align: top;
+}
+
+.nfg-board :is(td, th):nth-child(1) {
+  width: 4%;
+}
+
+.nfg-board :is(td, th):nth-child(2) {
+  width: 16%;
+}
+
+.nfg-board :is(td, th):nth-child(3) {
+  width: 13%;
+}
+
+.nfg-board :is(td, th):nth-child(4) {
+  width: 13%;
+}
+
+.nfg-board :is(td, th):nth-child(5) {
+  width: 8%;
+}
+
+.nfg-board :is(td, th):nth-child(6) {
+  width: 20%;
+}
+
+.nfg-board :is(td, th):nth-child(7) {
+  width: 26%;
 }
 
 .nfg-medal {
@@ -181,5 +231,9 @@
 @media screen and (max-width: 760px) {
   .nfg-podium {
     grid-template-columns: 1fr;
+  }
+
+  .nfg-board table {
+    min-width: 720px;
   }
 }
