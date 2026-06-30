@@ -109,4 +109,8 @@ def _tag(mac_key: bytes, nonce: bytes, aad: bytes, body: bytes) -> bytes:
 
 
 def _xor_bytes(left: bytes, right: bytes) -> bytes:
-    return bytes(left_item ^ right_item for left_item, right_item in zip(left, right, strict=True))
+    if len(left) != len(right):
+        raise ValueError("NFG-v0 XOR inputs must have equal length")
+    if not left:
+        return b""
+    return (int.from_bytes(left, "big") ^ int.from_bytes(right, "big")).to_bytes(len(left), "big")

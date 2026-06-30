@@ -12,6 +12,7 @@ from .cipher import (
     NfgSealedMessage,
 )
 from .datasets import DatasetCase, load_dataset_cases
+from .v1 import NfgV1Cipher, NfgV1SealedMessage
 
 __all__ = [
     "NFG_AAD_LIMIT",
@@ -21,5 +22,7 @@ __all__ = [
     "DatasetCase",
     "NfgCipher",
     "NfgSealedMessage",
+    "NfgV1Cipher",
+    "NfgV1SealedMessage",
     "load_dataset_cases",
 ]

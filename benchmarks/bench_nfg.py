@@ -10,13 +10,18 @@ from typing import Literal
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from experiments.nfg import NfgCipher, load_dataset_cases
+from experiments.nfg import NfgCipher, NfgV1Cipher, load_dataset_cases
 
 
 BenchmarkOperation = Literal["encrypt", "decrypt", "roundtrip"]
+NfgVersion = Literal["nfg-v0", "nfg-v1"]
 CSV_HEADER = (
     "algorithm,dataset,operation,payload_size,iterations,elapsed_ns,bytes_processed,mib_per_second"
 )
+NFG_CIPHERS = {
+    "nfg-v0": NfgCipher,
+    "nfg-v1": NfgV1Cipher,
+}
 
 
 @dataclass(frozen=True)
@@ -32,15 +37,20 @@ class NfgBenchmarkResult:
 
 
 def run_once(
-    dataset_name: str, iterations: int, operation: BenchmarkOperation
+    dataset_name: str,
+    iterations: int,
+    operation: BenchmarkOperation,
+    version: NfgVersion = "nfg-v0",
 ) -> NfgBenchmarkResult:
     if iterations <= 0:
         raise ValueError("iterations must be positive")
     cases = {case.name: case for case in load_dataset_cases()}
     if dataset_name not in cases:
         raise ValueError(f"unknown NFG dataset: {dataset_name}")
+    if version not in NFG_CIPHERS:
+        raise ValueError(f"unknown NFG version: {version}")
     case = cases[dataset_name]
-    cipher = NfgCipher.new(bytes(32))
+    cipher = NFG_CIPHERS[version].new(bytes(32))
     sealed = cipher.encrypt(case.plaintext, case.aad)
 
     start = perf_counter_ns()
@@ -62,7 +72,7 @@ def run_once(
     seconds = elapsed_ns / 1_000_000_000
     mib_per_second = 0.0 if bytes_processed == 0 else bytes_processed / (1024 * 1024) / seconds
     return NfgBenchmarkResult(
-        algorithm="nfg-v0",
+        algorithm=version,
         dataset=case.name,
         operation=operation,
         payload_size=len(case.plaintext),
@@ -77,9 +87,11 @@ def run_matrix(
     datasets: Iterable[str],
     iterations: int,
     operations: Iterable[BenchmarkOperation],
+    versions: Iterable[NfgVersion] = ("nfg-v0",),
 ) -> list[NfgBenchmarkResult]:
     return [
-        run_once(dataset_name, iterations, operation)
+        run_once(dataset_name, iterations, operation, version)
+        for version in versions
         for dataset_name in datasets
         for operation in operations
     ]
@@ -98,6 +110,12 @@ def main() -> None:
     parser.add_argument("--iterations", type=positive_int, default=1000)
     parser.add_argument("--datasets", nargs="+", choices=dataset_names, default=dataset_names)
     parser.add_argument(
+        "--versions",
+        nargs="+",
+        choices=list(NFG_CIPHERS),
+        default=["nfg-v0"],
+    )
+    parser.add_argument(
         "--operations",
         nargs="+",
         choices=["encrypt", "decrypt", "roundtrip"],
@@ -106,7 +124,7 @@ def main() -> None:
     args = parser.parse_args()
 
     print(CSV_HEADER)
-    for result in run_matrix(args.datasets, args.iterations, args.operations):
+    for result in run_matrix(args.datasets, args.iterations, args.operations, args.versions):
         print(
             f"{result.algorithm},{result.dataset},{result.operation},{result.payload_size},"
             f"{result.iterations},{result.elapsed_ns},{result.bytes_processed},"

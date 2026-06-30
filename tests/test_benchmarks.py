@@ -66,6 +66,15 @@ def test_nfg_benchmark_uses_named_datasets() -> None:
     assert result.mib_per_second > 0
 
 
+def test_nfg_benchmark_can_select_v1() -> None:
+    result = run_nfg_once("ascii", iterations=1, operation="roundtrip", version="nfg-v1")
+
+    assert result.algorithm == "nfg-v1"
+    assert result.dataset == "ascii"
+    assert result.bytes_processed == result.payload_size * 2
+    assert result.mib_per_second > 0
+
+
 def test_nfg_benchmark_allows_empty_dataset() -> None:
     result = run_nfg_once("empty", iterations=1, operation="encrypt")
 
@@ -88,6 +97,11 @@ def test_nfg_benchmark_matrix_covers_requested_datasets() -> None:
 def test_nfg_benchmark_rejects_unknown_dataset() -> None:
     with pytest.raises(ValueError, match="unknown NFG dataset"):
         run_nfg_once("missing", iterations=1, operation="encrypt")
+
+
+def test_nfg_benchmark_rejects_unknown_version() -> None:
+    with pytest.raises(ValueError, match="unknown NFG version"):
+        run_nfg_once("ascii", iterations=1, operation="encrypt", version="missing")
 
 
 def test_leaderboard_benchmark_reports_available_result() -> None:

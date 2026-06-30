@@ -30,7 +30,7 @@ check: format-check lint claims docs-check test
 
 bench-smoke:
 	$(PYTHON) benchmarks/bench_aead.py --iterations 10 --sizes 64 1024
-	$(PYTHON) benchmarks/bench_nfg.py --iterations 10 --datasets empty ascii deterministic-random-255
+	$(PYTHON) benchmarks/bench_nfg.py --iterations 10 --datasets empty ascii deterministic-random-255 --versions nfg-v0 nfg-v1
 	$(PYTHON) benchmarks/bench_leaderboard.py --iterations 10 --sizes 1024 --operations roundtrip
 
 docs-build:

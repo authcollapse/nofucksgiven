@@ -31,7 +31,7 @@ This validates benchmark plumbing for the library-backed AEAD baselines, the bro
 
 ```bash
 .venv/bin/python -m pytest tests/test_nfg_experiment.py tests/test_nfg_evaluation.py
-.venv/bin/python benchmarks/bench_nfg.py --iterations 10 --datasets empty ascii deterministic-random-255
+.venv/bin/python benchmarks/bench_nfg.py --iterations 10 --datasets empty ascii deterministic-random-255 --versions nfg-v0 nfg-v1
 ```
 
 Use these when changing the NFG experiment. Passing them means local behavior

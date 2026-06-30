@@ -1,12 +1,13 @@
-# NFG-v0 Failure Notes
+# NFG Failure Notes
 
-NFG-v0 is a toy construction. These notes track what breaks or remains outside
-the experiment.
+NFG variants are toy constructions. These notes track what breaks or remains
+outside the experiment.
 
 ## Nonce Reuse
 
-NFG-v0 uses a stream-style XOR body. Reusing the same key and nonce reuses the
-same keystream. The tests demonstrate two consequences:
+NFG-v0 and NFG-v1 use stream-style XOR bodies. Reusing the same key and nonce
+reuses the same keystream for a given variant. The tests demonstrate two
+consequences:
 
 - XORing two ciphertext bodies produced under the same key and nonce reveals the
   XOR of the plaintexts.
@@ -25,8 +26,15 @@ when paired with nonce reuse.
 ## Replay
 
 The same sealed message decrypts repeatedly. NFG-v0 does not provide replay
-protection. Protocol state or sequence numbers in AAD would be required to study
-that behavior.
+protection. NFG-v1 does not change that. Protocol state or sequence numbers in
+AAD would be required to study that behavior.
+
+## Version Notes
+
+- NFG-v0 uses HMAC-SHA-256 plumbing.
+- NFG-v1 uses keyed BLAKE2s plumbing to study local performance.
+- NFG-v1 is not a security upgrade. It preserves the same major nonce-reuse and
+  replay limitations.
 
 ## Current Non-Claims
 
