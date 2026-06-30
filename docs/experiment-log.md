@@ -1,6 +1,6 @@
 # Experiment Log
 
-Copy this template for each experiment.
+Copy this template when you start a new experiment.
 
 ## Hypothesis
 
@@ -8,11 +8,11 @@ What are you testing?
 
 ## Construction
 
-What primitive, mode, or design idea is under evaluation?
+What primitive, mode, or design idea are you evaluating?
 
 ## Method
 
-What inputs, parameters, machines, and commands were used?
+What inputs, parameters, machines, and commands did you use?
 
 ## Results
 

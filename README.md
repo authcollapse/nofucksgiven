@@ -5,7 +5,7 @@
 [![tests](https://img.shields.io/badge/tests-pytest-0A7BBB)](tests/)
 [![benchmarks](https://img.shields.io/badge/benchmarks-AEAD-6B7280)](benchmarks/)
 
-Research workspace for studying symmetric encryption and testing experimental ideas against established authenticated-encryption baselines.
+Use this repo to study symmetric encryption, test ideas against established authenticated-encryption baselines, and keep every claim tied to evidence.
 
 This repo studies AEAD usage, benchmarks, and experiment discipline. It does not propose a replacement cipher.
 
@@ -41,64 +41,30 @@ Run these from the repository root after Quickstart.
 | Run tests | `.venv/bin/python -m pytest` |
 | Lint | `.venv/bin/ruff check .` |
 | Format | `.venv/bin/ruff format .` |
+| Standard check | `make check` |
 | Benchmark smoke run | `.venv/bin/python benchmarks/bench_aead.py --iterations 10 --sizes 64 1024` |
 | Default benchmark matrix | `.venv/bin/python benchmarks/bench_aead.py` |
+| Install git hooks | `scripts/install-hooks.sh` |
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the local check and experiment workflow.
 
-## Repo Map
+## Development Map
 
 ```mermaid
 flowchart TD
-    README["README.md<br/>front door and commands"]
-    SECURITY["SECURITY.md<br/>research-only warning"]
-    PYPROJECT["pyproject.toml<br/>package and tooling"]
+    IDEA["Idea<br/>narrow question"]
+    STUDY["Study baseline<br/>AES-GCM, ChaCha20-Poly1305, Ascon"]
+    FAIL["Reproduce failure mode<br/>nonce reuse, tampering, weak toy rounds"]
+    EXP["Build toy experiment<br/>experiments/name"]
+    TEST["Test behavior<br/>vectors, round trip, tamper, wrong key/AAD"]
+    BENCH["Benchmark locally<br/>encrypt, decrypt, roundtrip"]
+    LOG["Record evidence<br/>method, results, caveats"]
+    REVIEW["Review before claims<br/>model, cryptanalysis, outside review"]
 
-    SRC["src/nofucksgiven<br/>importable research code"]
-    BASELINES["baselines.py<br/>AEAD registry and wrappers"]
-
-    TESTS["tests<br/>correctness and misuse coverage"]
-    TEST_BASE["test_baselines.py<br/>vectors, tamper, round trips"]
-    TEST_BENCH["test_benchmarks.py<br/>benchmark smoke coverage"]
-
-    BENCH["benchmarks<br/>performance harness"]
-    BENCH_AEAD["bench_aead.py<br/>CSV benchmark matrix"]
-
-    DOCS["docs<br/>research operating manual"]
-    ROADMAP["roadmap.md<br/>staged research plan"]
-    THREAT["threat-model.md<br/>scope and assumptions"]
-    SAFETY["safety-notes.md<br/>rules for safe experiments"]
-    READING["reading-list.md<br/>books, standards, resources"]
-    LOG["experiment-log.md<br/>experiment template"]
-
-    EXP["experiments<br/>future toy designs"]
-    DATA["data<br/>future datasets and vectors"]
-
-    README --> SRC
-    README --> TESTS
-    README --> BENCH
-    README --> DOCS
-    PYPROJECT --> SRC
-    SECURITY --> DOCS
-
-    SRC --> BASELINES
-    TESTS --> TEST_BASE
-    TESTS --> TEST_BENCH
-    TEST_BASE --> BASELINES
-    TEST_BENCH --> BENCH_AEAD
-    BENCH --> BENCH_AEAD
-    BENCH_AEAD --> BASELINES
-
-    DOCS --> ROADMAP
-    DOCS --> THREAT
-    DOCS --> SAFETY
-    DOCS --> READING
-    DOCS --> LOG
-    EXP --> LOG
-    DATA --> TEST_BASE
+    IDEA --> STUDY --> FAIL --> EXP --> TEST --> BENCH --> LOG --> REVIEW
 ```
 
-For the expanded version, see [docs/repo-map.md](docs/repo-map.md).
+For the expanded version, see [docs/development-map.md](docs/development-map.md).
 
 ## Baseline Example
 
@@ -129,21 +95,24 @@ Benchmark numbers are machine-local signals, not security claims.
 
 ## Research Flow
 
-1. Study a known primitive or failure mode.
-2. Add or import test vectors.
-3. Write an isolated experiment under `experiments/`.
-4. Compare behavior against `src/nofucksgiven/baselines.py`.
-5. Record method, results, and caveats in `docs/experiment-log.md`.
-6. Treat every original construction as broken until reviewed.
+1. You start with a narrow question.
+2. You study the known primitive or failure mode first.
+3. You add or import test vectors.
+4. You write an isolated experiment under `experiments/`.
+5. You compare behavior against `src/nofucksgiven/baselines.py`.
+6. You record method, results, and caveats in `docs/experiment-log.md`.
+7. We treat every original construction as broken until reviewed.
 
 ## Documentation
 
-- [Repo map](docs/repo-map.md)
+- [Development map](docs/development-map.md)
 - [Research roadmap](docs/roadmap.md)
 - [Threat model](docs/threat-model.md)
 - [Safety notes](docs/safety-notes.md)
 - [Reading list](docs/reading-list.md)
 - [Experiment log template](docs/experiment-log.md)
+- [Codex workflow](docs/codex-workflow.md)
+- [Commands](docs/commands.md)
 - [Contributing](CONTRIBUTING.md)
 
 ## License

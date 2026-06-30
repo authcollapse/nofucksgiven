@@ -1,0 +1,41 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/bin/env python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/prompt_guard.py\"",
+            "timeout": 10,
+            "statusMessage": "Checking prompt for repo safety context"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "^apply_patch$|^Edit$|^Write$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/bin/env python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/post_edit_review.py\"",
+            "timeout": 15,
+            "statusMessage": "Reviewing edit hygiene"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/bin/env python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/stop_summary.py\"",
+            "timeout": 20,
+            "statusMessage": "Summarizing repo state"
+          }
+        ]
+      }
+    ]
+  }
+}

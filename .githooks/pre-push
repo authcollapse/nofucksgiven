@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+set -eu
+
+if [ ! -x ".venv/bin/python" ]; then
+  echo "pre-push: .venv is missing. Run: make setup" >&2
+  exit 1
+fi
+
+echo "pre-push: running full check and benchmark smoke"
+make check
+make bench-smoke

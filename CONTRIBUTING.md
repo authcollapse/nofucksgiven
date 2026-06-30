@@ -1,20 +1,19 @@
 # Contributing
 
-This repository is for cryptography research and learning. Contributions should improve clarity, repeatability, or evidence. Do not submit experimental code as production-ready encryption.
+Use this repo for cryptography research and learning. Your changes should improve clarity, repeatability, or evidence. Do not present experimental code as deployable encryption.
 
 ## Local Checks
 
 Run these before committing:
 
 ```bash
-.venv/bin/python -m pytest
-.venv/bin/ruff check .
+make check
 ```
 
 Optional benchmark plumbing check:
 
 ```bash
-.venv/bin/python benchmarks/bench_aead.py --iterations 10 --sizes 64 1024
+make bench-smoke
 ```
 
 Format Python changes with:
@@ -22,6 +21,14 @@ Format Python changes with:
 ```bash
 .venv/bin/ruff format .
 ```
+
+Install local git hooks with:
+
+```bash
+scripts/install-hooks.sh
+```
+
+See [docs/commands.md](docs/commands.md) for the command tiers and pre-push checklist.
 
 ## Experiment Rules
 

@@ -1,0 +1,37 @@
+.PHONY: setup test lint format format-check claims docs-check check bench-smoke clean
+
+VENV ?= .venv
+PYTHON ?= $(VENV)/bin/python
+RUFF ?= $(VENV)/bin/ruff
+
+setup:
+	python -m venv $(VENV)
+	$(PYTHON) -m pip install -e ".[dev]"
+
+test:
+	$(PYTHON) -m pytest
+
+lint:
+	$(RUFF) check .
+
+format:
+	$(RUFF) format .
+
+format-check:
+	$(RUFF) format --check .
+
+claims:
+	$(PYTHON) scripts/check_claims.py
+
+docs-check:
+	$(PYTHON) scripts/check_internal_links.py
+
+check: format-check lint claims docs-check test
+
+bench-smoke:
+	$(PYTHON) benchmarks/bench_aead.py --iterations 10 --sizes 64 1024
+
+clean:
+	rm -rf .pytest_cache .ruff_cache .hypothesis
+	find . -type d -name __pycache__ -prune -exec rm -rf {} +
+	find . -type d -name "*.egg-info" -prune -exec rm -rf {} +
