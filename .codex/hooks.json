@@ -1,5 +1,18 @@
 {
   "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "resume|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/bin/env python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/continuity.py\" session-start",
+            "timeout": 10,
+            "statusMessage": "Loading continuity note"
+          }
+        ]
+      }
+    ],
     "UserPromptSubmit": [
       {
         "hooks": [
@@ -21,6 +34,32 @@
             "command": "/usr/bin/env python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/post_edit_review.py\"",
             "timeout": 15,
             "statusMessage": "Reviewing edit hygiene"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "auto|manual",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/bin/env python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/continuity.py\" pre-compact",
+            "timeout": 20,
+            "statusMessage": "Saving continuity before compaction"
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "matcher": "auto|manual",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/bin/env python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/continuity.py\" post-compact",
+            "timeout": 20,
+            "statusMessage": "Updating continuity after compaction"
           }
         ]
       }

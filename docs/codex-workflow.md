@@ -48,6 +48,23 @@ make bench-smoke
 - Remind Codex to align source changes with tests.
 - Remind Codex to align benchmark changes with benchmark tests.
 - Remind Codex to document experiments with hypothesis, method, results, and caveats.
+- Save local continuity notes before and after Codex compacts context.
 - Block commits and pushes when formatting, linting, claim scanning, docs links, or tests fail.
 
 Codex hooks advise. Git hooks enforce.
+
+## Continuity Notes
+
+Before automatic or manual compaction, Codex writes a local note to:
+
+```text
+.codex/session-notes/latest.md
+```
+
+It includes the current branch, HEAD, working tree status, recent commits, and a summary of the hook payload Codex provided. Raw hook payload records are appended to:
+
+```text
+.codex/session-notes/events.jsonl
+```
+
+That directory is gitignored. Do not commit it; it can contain conversation context.
