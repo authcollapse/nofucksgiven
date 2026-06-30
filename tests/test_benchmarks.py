@@ -3,6 +3,9 @@ from __future__ import annotations
 import pytest
 
 from benchmarks.bench_aead import run_matrix, run_once
+from benchmarks.bench_leaderboard import LEADERBOARD_CANDIDATES
+from benchmarks.bench_leaderboard import run_matrix as run_leaderboard_matrix
+from benchmarks.bench_leaderboard import run_candidate_once as run_leaderboard_once
 from benchmarks.bench_nfg import run_matrix as run_nfg_matrix
 from benchmarks.bench_nfg import run_once as run_nfg_once
 from nofucksgiven.baselines import SUPPORTED_AEAD_ALGORITHMS
@@ -85,3 +88,40 @@ def test_nfg_benchmark_matrix_covers_requested_datasets() -> None:
 def test_nfg_benchmark_rejects_unknown_dataset() -> None:
     with pytest.raises(ValueError, match="unknown NFG dataset"):
         run_nfg_once("missing", iterations=1, operation="encrypt")
+
+
+def test_leaderboard_benchmark_reports_available_result() -> None:
+    [candidate] = [item for item in LEADERBOARD_CANDIDATES if item.name == "aes-gcm-siv"]
+
+    result = run_leaderboard_once(candidate, payload_size=32, iterations=1, operation="roundtrip")
+
+    assert result.algorithm == "aes-gcm-siv"
+    assert result.status == "available"
+    assert result.bytes_processed == 64
+    assert result.mib_per_second > 0
+
+
+def test_leaderboard_benchmark_reports_unavailable_result() -> None:
+    [candidate] = [item for item in LEADERBOARD_CANDIDATES if item.name == "ascon-aead128"]
+
+    result = run_leaderboard_once(candidate, payload_size=32, iterations=1, operation="encrypt")
+
+    assert result.algorithm == "ascon-aead128"
+    assert result.status == "unavailable"
+    assert result.elapsed_ns == 0
+    assert "not benchmarked" in result.notes
+
+
+def test_leaderboard_benchmark_matrix_covers_candidates() -> None:
+    results = run_leaderboard_matrix(
+        payload_sizes=[32],
+        iterations=1,
+        operations=["encrypt"],
+        candidates=LEADERBOARD_CANDIDATES[:3],
+    )
+
+    assert [result.algorithm for result in results] == [
+        "aes-gcm-256",
+        "aes-gcm-siv",
+        "chacha20-poly1305",
+    ]

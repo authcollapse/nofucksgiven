@@ -38,7 +38,7 @@ No fucks given to crypto theater. Plenty of fucks given to test vectors, threat 
 <div class="nfg-rank">Misuse-resistant contender</div>
 <div class="nfg-score nfg-score--silver">91</div>
 ### AES-GCM-SIV
-<p class="nfg-tagline">Great shape for nonce-mistake resistance. Waiting for local wrapper work in this repo.</p>
+<p class="nfg-tagline">Great shape for nonce-mistake resistance. Locally benchmarked now; slower than AES-GCM-256 in the first 1 KiB run.</p>
 </div>
 
 <div class="nfg-card" markdown>
@@ -63,6 +63,7 @@ No fucks given to crypto theater. Plenty of fucks given to test vectors, threat 
 | Goal | Where to start |
 | --- | --- |
 | See the current standings | [Evidence Leaderboard](leaderboard.md) |
+| Compare local throughput | [Local Benchmarks](local-benchmarks.md) |
 | Understand the research flow | [Development Map](development-map.md) |
 | Learn the staged path from basics to experiments | [Research Roadmap](roadmap.md) |
 | Understand what is in and out of scope | [Threat Model](threat-model.md) |
@@ -73,6 +74,7 @@ No fucks given to crypto theater. Plenty of fucks given to test vectors, threat 
 The current code wraps library-backed AEAD baselines:
 
 - AES-GCM-256
+- AES-GCM-SIV
 - ChaCha20-Poly1305
 
 The test suite checks known-answer vectors, round trips, wrong keys, wrong AAD, tampering, nonce-size validation, benchmark structure, and docs/claim hygiene.

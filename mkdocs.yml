@@ -50,6 +50,7 @@ markdown_extensions:
 nav:
   - Start Here: index.md
   - Evidence Leaderboard: leaderboard.md
+  - Local Benchmarks: local-benchmarks.md
   - Development Map: development-map.md
   - Research Roadmap: roadmap.md
   - Threat Model: threat-model.md

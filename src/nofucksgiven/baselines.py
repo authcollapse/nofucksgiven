@@ -10,11 +10,12 @@ from dataclasses import dataclass
 from enum import StrEnum
 import os
 
-from cryptography.hazmat.primitives.ciphers.aead import AESGCM, ChaCha20Poly1305
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM, AESGCMSIV, ChaCha20Poly1305
 
 
 AES_GCM_KEY_SIZE = 32
 CHACHA20_POLY1305_KEY_SIZE = 32
+AES_GCM_SIV_KEY_SIZE = 32
 AEAD_NONCE_SIZE = 12
 AEAD_TAG_SIZE = 16
 
@@ -23,6 +24,7 @@ class AeadAlgorithm(StrEnum):
     """Supported AEAD baselines."""
 
     AES_GCM_256 = "aes-gcm-256"
+    AES_GCM_SIV = "aes-gcm-siv"
     CHACHA20_POLY1305 = "chacha20-poly1305"
 
 
@@ -49,6 +51,12 @@ AEAD_SPECS = {
         nonce_size=AEAD_NONCE_SIZE,
         tag_size=AEAD_TAG_SIZE,
     ),
+    AeadAlgorithm.AES_GCM_SIV: AeadSpec(
+        name=AeadAlgorithm.AES_GCM_SIV,
+        key_size=AES_GCM_SIV_KEY_SIZE,
+        nonce_size=AEAD_NONCE_SIZE,
+        tag_size=AEAD_TAG_SIZE,
+    ),
 }
 SUPPORTED_AEAD_ALGORITHMS = tuple(algorithm.value for algorithm in AeadAlgorithm)
 
@@ -67,7 +75,7 @@ class AeadCipher:
     def __init__(
         self,
         name: AeadAlgorithm,
-        algorithm: AESGCM | ChaCha20Poly1305,
+        algorithm: AESGCM | AESGCMSIV | ChaCha20Poly1305,
         key: bytes,
     ) -> None:
         self.name = name
@@ -79,6 +87,8 @@ class AeadCipher:
         algorithm = AeadAlgorithm(name)
         if algorithm is AeadAlgorithm.AES_GCM_256:
             return cls.new_aes_gcm(key)
+        if algorithm is AeadAlgorithm.AES_GCM_SIV:
+            return cls.new_aes_gcm_siv(key)
         if algorithm is AeadAlgorithm.CHACHA20_POLY1305:
             return cls.new_chacha20_poly1305(key)
         raise ValueError(f"unsupported AEAD algorithm: {name}")
@@ -96,6 +106,13 @@ class AeadCipher:
         if len(key) != CHACHA20_POLY1305_KEY_SIZE:
             raise ValueError("ChaCha20-Poly1305 requires a 32-byte key")
         return cls(AeadAlgorithm.CHACHA20_POLY1305, ChaCha20Poly1305(key), key)
+
+    @classmethod
+    def new_aes_gcm_siv(cls, key: bytes | None = None) -> AeadCipher:
+        key = key if key is not None else AESGCMSIV.generate_key(bit_length=256)
+        if len(key) != AES_GCM_SIV_KEY_SIZE:
+            raise ValueError("AES-GCM-SIV requires a 32-byte key in this scaffold")
+        return cls(AeadAlgorithm.AES_GCM_SIV, AESGCMSIV(key), key)
 
     def encrypt(self, plaintext: bytes, aad: bytes = b"") -> SealedMessage:
         nonce = os.urandom(AEAD_NONCE_SIZE)

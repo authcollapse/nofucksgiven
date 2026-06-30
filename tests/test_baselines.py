@@ -71,6 +71,11 @@ def test_wrong_chacha_key_size_is_rejected() -> None:
         AeadCipher.new_chacha20_poly1305(b"too-short")
 
 
+def test_wrong_aes_gcm_siv_key_size_is_rejected() -> None:
+    with pytest.raises(ValueError, match="32-byte key"):
+        AeadCipher.new_aes_gcm_siv(b"too-short")
+
+
 def test_wrong_nonce_size_is_rejected() -> None:
     cipher = AeadCipher.new_aes_gcm()
     sealed = SealedMessage(nonce=b"short", ciphertext=b"ciphertext")
@@ -133,10 +138,14 @@ def test_truncated_ciphertext_is_rejected(algorithm: str) -> None:
 def test_cross_algorithm_decrypt_is_rejected() -> None:
     aes = AeadCipher.new_aes_gcm(key=bytes(32))
     chacha = AeadCipher.new_chacha20_poly1305(key=bytes(32))
+    siv = AeadCipher.new_aes_gcm_siv(key=bytes(32))
     sealed = aes.encrypt_with_nonce(nonce=bytes(12), plaintext=b"message", aad=b"context")
 
     with pytest.raises(InvalidTag):
         chacha.decrypt(sealed, b"context")
+
+    with pytest.raises(InvalidTag):
+        siv.decrypt(sealed, b"context")
 
 
 def test_aes_gcm_256_known_answer_vector() -> None:

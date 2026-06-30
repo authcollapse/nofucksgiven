@@ -21,7 +21,7 @@ The score is evidence confidence: standards, review maturity, misuse shape, auth
 <div class="nfg-rank">#2 | mistake-resistant challenger</div>
 <div class="nfg-score nfg-score--silver">91</div>
 ### AES-GCM-SIV
-<p class="nfg-tagline">Built for a better nonce-mistake posture. Winning on public evidence while it waits for local reps.</p>
+<p class="nfg-tagline">Built for a better nonce-mistake posture. Now benchmarked locally, still slower than AES-GCM-256 here.</p>
 </div>
 
 <div class="nfg-card" markdown>
@@ -115,8 +115,8 @@ High score means "stronger public evidence and safer default shape." It is not a
       <strong>12/15</strong>
     </div>
   </div>
-  <div class="nfg-competitor__detail"><strong>Local reps:</strong> none yet</div>
-  <div class="nfg-competitor__detail"><strong>Caution:</strong> Not implemented in the current local baseline wrapper</div>
+  <div class="nfg-competitor__detail"><strong>Local reps:</strong> round trips, tamper rejection, benchmark smoke, local leaderboard benchmark</div>
+  <div class="nfg-competitor__detail"><strong>Caution:</strong> Slower than AES-GCM-256 in the 2026-06-30 local 1 KiB roundtrip benchmark</div>
 </article>
 
 <article class="nfg-competitor nfg-competitor--top">
@@ -421,8 +421,8 @@ High score means "stronger public evidence and safer default shape." It is not a
       <strong>5/15</strong>
     </div>
   </div>
-  <div class="nfg-competitor__detail"><strong>Local reps:</strong> deterministic datasets, vectors, round trips, tamper rejection, nonce-reuse failure demos, benchmark smoke</div>
-  <div class="nfg-competitor__detail"><strong>Caution:</strong> No public cryptanalysis</div>
+  <div class="nfg-competitor__detail"><strong>Local reps:</strong> deterministic datasets, vectors, round trips, tamper rejection, nonce-reuse failure demos, bit-flip checks, benchmark smoke</div>
+  <div class="nfg-competitor__detail"><strong>Caution:</strong> No public cryptanalysis; far slower than AEAD baselines in the 2026-06-30 local 1 KiB roundtrip benchmark</div>
 </article>
 
 <article class="nfg-competitor">
@@ -517,3 +517,4 @@ High score means "stronger public evidence and safer default shape." It is not a
 - Local experiments currently cover algorithms implemented in `src/nofucksgiven/baselines.py` and the NFG-v0 scaffold under `experiments/nfg/`.
 - Performance benchmarks belong beside environment metadata; they do not increase security.
 - Legacy algorithms stay on the board so we can test that our tooling rejects or warns on them.
+- Current local throughput notes live in [Local Benchmarks](local-benchmarks.md).

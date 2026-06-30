@@ -22,6 +22,7 @@ It includes the evidence leaderboard, development map, roadmap, threat model, sa
 ## Current Baselines
 
 - AES-GCM-256
+- AES-GCM-SIV
 - ChaCha20-Poly1305
 
 The local test suite covers known-answer vectors, property tests, tamper rejection, wrong keys, wrong AAD, nonce validation, benchmark structure, docs links, and claim hygiene.

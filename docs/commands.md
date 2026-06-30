@@ -22,9 +22,10 @@ The claim scanner rejects risky phrases such as `unbreakable`, `production-ready
 
 ```bash
 make bench-smoke
+.venv/bin/python benchmarks/bench_leaderboard.py --iterations 1000 --sizes 1024 --operations roundtrip
 ```
 
-This validates benchmark plumbing for the library-backed AEAD baselines and the NFG-v0 experiment datasets. When you publish full benchmark results, include CPU, OS, Python version, dependency versions, iterations, payload sizes, dataset names, and date.
+This validates benchmark plumbing for the library-backed AEAD baselines, the broader leaderboard benchmark runner, and the NFG-v0 experiment datasets. When you publish full benchmark results, include CPU, OS, Python version, dependency versions, iterations, payload sizes, dataset names, and date.
 
 ## NFG Focus
 
