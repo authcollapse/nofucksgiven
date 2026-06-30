@@ -136,4 +136,6 @@ Benchmark numbers are machine-local signals, not security claims.
 
 ## License
 
-No open-source license has been selected yet. Until a license is added, reuse rights are not granted by default.
+Apache-2.0. See [LICENSE](LICENSE).
+
+The license covers reuse terms. It does not make experimental cryptography safe for real data.
