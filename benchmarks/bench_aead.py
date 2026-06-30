@@ -80,7 +80,12 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Benchmark AEAD baseline wrappers.")
     parser.add_argument("--iterations", type=int, default=1000)
     parser.add_argument("--sizes", type=int, nargs="+", default=[64, 1024, 16384, 1048576])
-    parser.add_argument("--algorithms", nargs="+", default=list(SUPPORTED_AEAD_ALGORITHMS))
+    parser.add_argument(
+        "--algorithms",
+        nargs="+",
+        choices=list(SUPPORTED_AEAD_ALGORITHMS),
+        default=list(SUPPORTED_AEAD_ALGORITHMS),
+    )
     parser.add_argument(
         "--operations",
         nargs="+",
