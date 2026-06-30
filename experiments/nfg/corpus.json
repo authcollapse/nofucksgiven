@@ -1,0 +1,21 @@
+{
+  "name": "nfg-v0-local-corpus",
+  "seed_hex": "4e46475f7630",
+  "generated_by": "experiments/nfg/datasets.py",
+  "checked_in_large_blobs": false,
+  "cases": [
+    "empty",
+    "single-byte",
+    "ascii",
+    "utf8",
+    "json",
+    "zeros-1k",
+    "incrementing-256",
+    "alternating-1k",
+    "deterministic-random-31",
+    "deterministic-random-32",
+    "deterministic-random-33",
+    "deterministic-random-255",
+    "deterministic-random-4096"
+  ]
+}

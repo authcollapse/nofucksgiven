@@ -26,6 +26,12 @@ It includes the evidence leaderboard, development map, roadmap, threat model, sa
 
 The local test suite covers known-answer vectors, property tests, tamper rejection, wrong keys, wrong AAD, nonce validation, benchmark structure, docs links, and claim hygiene.
 
+## Current Experiment
+
+- NFG-v0 lives under `experiments/nfg/`.
+- It is a toy symmetric encryption scaffold for datasets, vectors, misuse tests, and benchmark plumbing.
+- It is not for real data.
+
 ## Local Setup
 
 ```bash

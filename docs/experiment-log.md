@@ -21,3 +21,12 @@ Record correctness results, benchmark numbers, and any failures.
 ## Caveats
 
 List limitations, assumptions, and reasons this does not establish production safety.
+
+## Active Experiments
+
+### NFG-v0
+
+- Location: `experiments/nfg/`
+- Purpose: first local scaffold for an original symmetric encryption experiment.
+- Current method: deterministic datasets, fixed snapshot vector, tamper rejection tests, wrong-key/wrong-AAD tests, nonce-reuse failure demo, and benchmark smoke.
+- Caveat: NFG-v0 is not for real data. Passing local tests only means the scaffold behaved as expected locally.

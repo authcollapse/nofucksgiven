@@ -58,6 +58,7 @@ Use this shape for new algorithm experiments:
 ```text
 experiments/<experiment-name>/
 ├── README.md              # what you are testing and why
+├── datasets.py            # deterministic local test corpora
 ├── vectors.json           # fixed test vectors, if applicable
 ├── prototype.py           # toy or experimental code only
 └── results.md             # benchmark and analysis notes

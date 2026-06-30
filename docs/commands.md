@@ -24,7 +24,7 @@ The claim scanner rejects risky phrases such as `unbreakable`, `production-ready
 make bench-smoke
 ```
 
-This validates benchmark plumbing. When you publish full benchmark results, include CPU, OS, Python version, dependency versions, iterations, payload sizes, and date.
+This validates benchmark plumbing for the library-backed AEAD baselines and the NFG-v0 experiment datasets. When you publish full benchmark results, include CPU, OS, Python version, dependency versions, iterations, payload sizes, dataset names, and date.
 
 ## Docs Site
 
