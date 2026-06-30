@@ -16,6 +16,10 @@ site/
 .coverage
 coverage.xml
 htmlcov/
+benchmark-results/
+profile-results/
+*.prof
+*.lprof
 .mypy_cache/
 .pyre/
 .pytype/

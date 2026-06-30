@@ -20,9 +20,7 @@ clearly labeled as policy text. <!-- claim-ok: policy-text -->
 - Use established library-backed baselines before adding experimental code.
 - Put toy or experimental constructions under `experiments/`.
 - Record experimental assumptions and caveats in docs or experiment-local notes.
-- Reuse existing subagents when delegation is useful:
-  - Mimir: crypto research, safety, and credibility review.
-  - Runar: repo structure, test, benchmark, and documentation review.
+- Keep public-facing changes understandable without relying on private agent context.
 
 ## Verification
 

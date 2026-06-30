@@ -28,19 +28,8 @@ This validates benchmark plumbing for the library-backed AEAD baselines and the 
 
 ## Docs Site
 
-Build the GitHub Pages site locally:
-
-```bash
-make docs-build
-```
-
-Preview it while editing:
-
-```bash
-make docs-serve
-```
-
-The public site is published by GitHub Actions from `main`.
+The public site is published by GitHub Actions from `main`. The generated `site/`
+directory is a disposable build artifact and stays out of git.
 
 ## Before Push
 

@@ -46,8 +46,6 @@ Useful commands:
 
 ```bash
 make bench-smoke
-make docs-build
-make docs-serve
 ```
 
 ## Name
