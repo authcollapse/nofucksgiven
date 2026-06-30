@@ -4,12 +4,30 @@
 [![python](https://img.shields.io/badge/python-3.11%2B-3776AB)](pyproject.toml)
 [![tests](https://img.shields.io/badge/tests-pytest-0A7BBB)](tests/)
 [![benchmarks](https://img.shields.io/badge/benchmarks-AEAD-6B7280)](benchmarks/)
+[![site](https://img.shields.io/badge/site-GitHub%20Pages-111827)](https://authcollapse.github.io/nofucksgiven/)
+
+No fucks given to unsupported crypto claims.
 
 Use this repo to study symmetric encryption, test ideas against established authenticated-encryption baselines, and keep every claim tied to evidence.
 
 This repo studies AEAD usage, benchmarks, and experiment discipline. It does not propose a replacement cipher.
 
 This is not production cryptography. New constructions remain non-production unless they receive sustained external cryptanalysis, review, and adoption.
+
+## What The Name Means
+
+`nofucksgiven` is not apathy. It is the operating rule: no fucks given to vibes, fake certainty, or crypto marketing language without evidence.
+
+We do care about the hard parts:
+
+- test vectors
+- tamper and misuse checks
+- benchmark context
+- threat models
+- public sources
+- honest caveats
+
+The point is to build a workspace where beginners can see how cryptographic claims get tested, limited, and documented.
 
 ## Status
 
@@ -60,11 +78,17 @@ Run these from the repository root after Quickstart.
 | Format | `.venv/bin/ruff format .` |
 | Standard check | `make check` |
 | Render leaderboard | `make leaderboard` |
+| Build docs site | `make docs-build` |
+| Serve docs locally | `make docs-serve` |
 | Benchmark smoke run | `.venv/bin/python benchmarks/bench_aead.py --iterations 10 --sizes 64 1024` |
 | Default benchmark matrix | `.venv/bin/python benchmarks/bench_aead.py` |
 | Install git hooks | `scripts/install-hooks.sh` |
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the local check and experiment workflow.
+
+The public docs site builds from `docs/` with MkDocs Material and publishes through GitHub Pages:
+
+https://authcollapse.github.io/nofucksgiven/
 
 ## Development Map
 

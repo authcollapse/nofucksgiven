@@ -26,6 +26,22 @@ make bench-smoke
 
 This validates benchmark plumbing. When you publish full benchmark results, include CPU, OS, Python version, dependency versions, iterations, payload sizes, and date.
 
+## Docs Site
+
+Build the GitHub Pages site locally:
+
+```bash
+make docs-build
+```
+
+Preview it while editing:
+
+```bash
+make docs-serve
+```
+
+The public site is published by GitHub Actions from `main`.
+
 ## Before Push
 
 - Make `make check` pass.

@@ -31,6 +31,7 @@ DEFAULT_EXCLUDES = {
     ".ruff_cache",
     ".hypothesis",
     "__pycache__",
+    "site",
 }
 EXCLUDED_FILES = {
     Path("scripts/check_claims.py"),

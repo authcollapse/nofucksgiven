@@ -6,12 +6,12 @@ Use these Codex and git hooks to keep our research work consistent.
 
 | Surface | File | Purpose |
 | --- | --- | --- |
-| Repo instructions | [AGENTS.md](../AGENTS.md) | Tell Codex how we work in this repo. |
-| Project config | [.codex/config.toml](../.codex/config.toml) | Enable project-local Codex hooks after you trust the repo. |
-| Codex hooks | [.codex/hooks.json](../.codex/hooks.json) | Run lightweight prompt, edit, and stop checks during Codex sessions. |
-| Git hooks | [.githooks/](../.githooks) | Run local checks before you commit and push. |
-| Commands | [Makefile](../Makefile) | Give you one command surface for setup, tests, linting, formatting, and benchmark smoke runs. |
-| Claim scanner | [scripts/check_claims.py](../scripts/check_claims.py) | Catches risky crypto wording unless you justify it. |
+| Repo instructions | [AGENTS.md](https://github.com/authcollapse/nofucksgiven/blob/main/AGENTS.md) | Tell Codex how we work in this repo. |
+| Project config | [.codex/config.toml](https://github.com/authcollapse/nofucksgiven/blob/main/.codex/config.toml) | Enable project-local Codex hooks after you trust the repo. |
+| Codex hooks | [.codex/hooks.json](https://github.com/authcollapse/nofucksgiven/blob/main/.codex/hooks.json) | Run lightweight prompt, edit, and stop checks during Codex sessions. |
+| Git hooks | [.githooks/](https://github.com/authcollapse/nofucksgiven/tree/main/.githooks) | Run local checks before you commit and push. |
+| Commands | [Makefile](https://github.com/authcollapse/nofucksgiven/blob/main/Makefile) | Give you one command surface for setup, tests, linting, formatting, and benchmark smoke runs. |
+| Claim scanner | [scripts/check_claims.py](https://github.com/authcollapse/nofucksgiven/blob/main/scripts/check_claims.py) | Catches risky crypto wording unless you justify it. |
 
 ## Install Local Git Hooks
 

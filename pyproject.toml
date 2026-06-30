@@ -16,6 +16,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "hypothesis>=6",
+    "mkdocs-material>=9.5",
     "pytest>=8",
     "ruff>=0.5",
 ]

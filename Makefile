@@ -1,4 +1,4 @@
-.PHONY: setup test lint format format-check claims docs-check leaderboard check bench-smoke clean
+.PHONY: setup test lint format format-check claims docs-check leaderboard check bench-smoke docs-build docs-serve clean
 
 VENV ?= .venv
 PYTHON ?= $(VENV)/bin/python
@@ -34,7 +34,14 @@ check: leaderboard format-check lint claims docs-check test
 bench-smoke:
 	$(PYTHON) benchmarks/bench_aead.py --iterations 10 --sizes 64 1024
 
+docs-build:
+	$(PYTHON) -m mkdocs build --strict
+
+docs-serve:
+	$(PYTHON) -m mkdocs serve
+
 clean:
 	rm -rf .pytest_cache .ruff_cache .hypothesis
+	rm -rf site
 	find . -type d -name __pycache__ -prune -exec rm -rf {} +
 	find . -type d -name "*.egg-info" -prune -exec rm -rf {} +

@@ -10,7 +10,15 @@ from urllib.parse import unquote
 
 LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
 HEADING_RE = re.compile(r"^#{1,6}\s+(?P<title>.+?)\s*#*\s*$")
-EXCLUDED_DIRS = {".git", ".venv", ".pytest_cache", ".ruff_cache", ".hypothesis", "__pycache__"}
+EXCLUDED_DIRS = {
+    ".git",
+    ".venv",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".hypothesis",
+    "__pycache__",
+    "site",
+}
 
 
 def markdown_files(root: Path) -> list[Path]:
