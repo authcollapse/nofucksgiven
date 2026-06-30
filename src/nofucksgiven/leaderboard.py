@@ -83,18 +83,111 @@ def validate_leaderboard(
     return findings
 
 
+def _status_badge(status: str) -> str:
+    label_by_status = {
+        "recommended_baseline": ("baseline", "go"),
+        "recommended_misuse_resistant": ("misuse-resistant", "go"),
+        "recommended_constrained_devices": ("constrained devices", "lab"),
+        "recommended_when_available": ("extended nonce", "lab"),
+        "acceptable_when_composed_correctly": ("compose carefully", "lab"),
+        "avoid_for_new_work": ("avoid", "avoid"),
+        "do_not_use_for_secret_data": ("do not use", "avoid"),
+        "deprecated_or_withdrawn": ("withdrawn", "avoid"),
+        "do_not_use": ("do not use", "avoid"),
+    }
+    label, kind = label_by_status.get(status, (status.replace("_", " "), "lab"))
+    return f'<span class="nfg-status nfg-status--{kind}">{label}</span>'
+
+
+def _experiment_label(experiments: tuple[str, ...]) -> str:
+    if not experiments:
+        return "none yet"
+    short_names = {
+        "known_answer_vectors": "vectors",
+        "round_trip_property_tests": "round trips",
+        "tamper_rejection_tests": "tamper rejection",
+        "benchmark_smoke": "benchmark smoke",
+    }
+    return ", ".join(short_names.get(item, item.replace("_", " ")) for item in experiments)
+
+
+def _podium_card(algorithm: AlgorithmEvidence, rank: int) -> list[str]:
+    rank_labels = {
+        1: "#1 | belt holder",
+        2: "#2 | mistake-resistant challenger",
+        3: "#3 | software-speed favorite",
+    }
+    score_colors = {1: "gold", 2: "silver", 3: "bronze"}
+    tagline_by_name = {
+        "AES-GCM-256": (
+            "The default heavyweight. Standardized, widely deployed, locally tested here. "
+            "Still gets folded by nonce reuse."
+        ),
+        "AES-GCM-SIV": (
+            "Built for a better nonce-mistake posture. Winning on public evidence while it waits "
+            "for local reps."
+        ),
+        "ChaCha20-Poly1305": (
+            "The software-speed favorite. Clean modern AEAD shape, no freestyle nonce nonsense."
+        ),
+    }
+    card_class = "nfg-card nfg-card--champ" if rank == 1 else "nfg-card"
+    tagline = tagline_by_name.get(
+        algorithm.name,
+        algorithm.cautions[0] if algorithm.cautions else "Bring evidence before bragging.",
+    )
+    return [
+        f'<div class="{card_class}" markdown>',
+        f'<div class="nfg-rank">{rank_labels[rank]}</div>',
+        f'<div class="nfg-score nfg-score--{score_colors[rank]}">{algorithm.evidence_score}</div>',
+        f"### {algorithm.name}",
+        f'<p class="nfg-tagline">{tagline}</p>',
+        "</div>",
+        "",
+    ]
+
+
 def render_markdown(criteria: dict[str, int], algorithms: list[AlgorithmEvidence]) -> str:
     lines = [
         "# Encryption Evidence Leaderboard",
         "",
-        "This is an evidence-confidence leaderboard, not a proof of security. "
-        "Use it to compare what we know, what we have tested locally, and what still needs evidence.",
+        '<section class="nfg-hero" markdown>',
+        '<div class="nfg-hero__kicker">Season one standings</div>',
+        '<div class="nfg-hero__title">Authenticated encryption cage match.</div>',
         "",
-        "## Rubric",
+        '<p class="nfg-hero__subtitle">',
+        "The score is evidence confidence: standards, review maturity, misuse shape, "
+        "auth integrity, and what this repo has actually tested. It is not a magical "
+        "security number.",
+        "</p>",
+        "</section>",
         "",
-        "| Criterion | Max |",
-        "| --- | ---: |",
+        '<div class="nfg-podium" markdown>',
     ]
+    for rank, algorithm in enumerate(algorithms[:3], start=1):
+        lines.extend(_podium_card(algorithm, rank))
+    lines.extend(
+        [
+            "</div>",
+            "",
+            '<p class="nfg-callout">',
+            'High score means "stronger public evidence and safer default shape." '
+            'It is not a proof of security, and it is not "go encrypt production '
+            'data with random code from a GitHub repo."',
+            "</p>",
+            "",
+        ]
+    )
+
+    lines.extend(
+        [
+            "",
+            "## Rubric",
+            "",
+            "| Criterion | Max |",
+            "| --- | ---: |",
+        ]
+    )
     for name, max_value in criteria.items():
         lines.append(f"| {name.replace('_', ' ').title()} | {max_value} |")
 
@@ -103,23 +196,26 @@ def render_markdown(criteria: dict[str, int], algorithms: list[AlgorithmEvidence
             "",
             "## Leaderboard",
             "",
+            '<div class="nfg-board" markdown>',
+            "",
             "| Rank | Algorithm | Family | Status | Evidence Score | Local Experiments | Main Caution |",
             "| ---: | --- | --- | --- | ---: | --- | --- |",
         ]
     )
 
     for rank, algorithm in enumerate(algorithms, start=1):
-        experiments = (
-            ", ".join(algorithm.local_experiments) if algorithm.local_experiments else "none yet"
-        )
+        rank_label = f'<span class="nfg-medal">{rank}</span>' if rank <= 3 else str(rank)
+        experiments = _experiment_label(algorithm.local_experiments)
         caution = algorithm.cautions[0] if algorithm.cautions else ""
         lines.append(
-            f"| {rank} | {algorithm.name} | {algorithm.family} | {algorithm.status} | "
+            f"| {rank_label} | {algorithm.name} | {algorithm.family} | {_status_badge(algorithm.status)} | "
             f"{algorithm.evidence_score} | {experiments} | {caution} |"
         )
 
     lines.extend(
         [
+            "",
+            "</div>",
             "",
             "## Source Tags",
             "",

@@ -45,15 +45,9 @@ make docs-serve
 
 ## Name
 
-The name is about discipline, not apathy:
+It is called `nofucksgiven` because the repo has no patience for crypto theater.
 
-- No unsupported security claims.
-- No pretending benchmarks prove cryptographic safety.
-- No hiding misuse risks.
-- No calling toy experiments deployable.
-- No replacing public cryptanalysis with vibes.
-
-We do care about test vectors, threat models, public sources, reproducible experiments, and honest caveats.
+Benchmarks go in tables. Experiments go in the lab. Unsupported security claims go directly into the trash.
 
 ## License
 
