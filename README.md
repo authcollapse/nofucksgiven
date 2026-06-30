@@ -23,6 +23,20 @@ Current baseline layer:
 | Docs | Threat model, roadmap, safety notes, reading list, experiment log |
 | Production use | No. Research only. |
 
+## Evidence Leaderboard
+
+This is an evidence-confidence snapshot, not a proof of security. Scores combine public standardization/review signals with local test coverage where we have it.
+
+| Rank | Algorithm | Evidence Score | Status | Local Experiments | Main Caution |
+| ---: | --- | ---: | --- | --- | --- |
+| 1 | AES-GCM-256 | 94 | recommended_baseline | vectors, properties, tamper tests, benchmarks | Nonce reuse with the same key is catastrophic |
+| 2 | AES-GCM-SIV | 91 | recommended_misuse_resistant | none yet | Not implemented in the local baseline wrapper |
+| 3 | ChaCha20-Poly1305 | 88 | recommended_baseline | vectors, properties, tamper tests, benchmarks | Nonce reuse with the same key is unsafe |
+| 4 | Ascon-AEAD128 | 85 | recommended_constrained_devices | none yet | Newer standard than AES and ChaCha20-Poly1305 |
+| 5 | XChaCha20-Poly1305 | 83 | recommended_when_available | none yet | Not a NIST standard |
+
+See the full [encryption evidence leaderboard](docs/leaderboard.md), including legacy algorithms and source tags.
+
 ## Quickstart
 
 These commands assume Linux/macOS shell paths. On Windows, use the equivalent
