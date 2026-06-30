@@ -30,13 +30,13 @@ jobs:
         run: python -m pip install -e ".[dev]"
 
       - name: Run checks
-        run: make check
+        run: make check PYTHON=python RUFF=ruff
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
       - name: Build site
-        run: make docs-build
+        run: make docs-build PYTHON=python
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

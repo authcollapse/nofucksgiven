@@ -3,160 +3,57 @@
 [![status](https://img.shields.io/badge/status-research-111827)](#status)
 [![python](https://img.shields.io/badge/python-3.11%2B-3776AB)](pyproject.toml)
 [![tests](https://img.shields.io/badge/tests-pytest-0A7BBB)](tests/)
-[![benchmarks](https://img.shields.io/badge/benchmarks-AEAD-6B7280)](benchmarks/)
 [![site](https://img.shields.io/badge/site-GitHub%20Pages-111827)](https://authcollapse.github.io/nofucksgiven/)
 
 No fucks given to unsupported crypto claims.
 
-Use this repo to study symmetric encryption, test ideas against established authenticated-encryption baselines, and keep every claim tied to evidence.
+`nofucksgiven` is an evidence-first workspace for learning how modern symmetric encryption is tested, benchmarked, documented, and challenged. The repo compares established authenticated-encryption baselines, tracks public evidence, and keeps experimental work clearly separated from real-world crypto.
 
-This repo studies AEAD usage, benchmarks, and experiment discipline. It does not propose a replacement cipher.
+This is research only. Do not use experimental code here to protect real data.
 
-This is not production cryptography. New constructions remain non-production unless they receive sustained external cryptanalysis, review, and adoption.
+## Start Here
 
-## What The Name Means
+The readable docs site is the main entry point:
 
-`nofucksgiven` is not apathy. It is the operating rule: no fucks given to vibes, fake certainty, or crypto marketing language without evidence.
+https://authcollapse.github.io/nofucksgiven/
 
-We do care about the hard parts:
+It includes the evidence leaderboard, development map, roadmap, threat model, safety notes, commands, and contribution workflow.
 
-- test vectors
-- tamper and misuse checks
-- benchmark context
-- threat models
-- public sources
-- honest caveats
+## Current Baselines
 
-The point is to build a workspace where beginners can see how cryptographic claims get tested, limited, and documented.
+- AES-GCM-256
+- ChaCha20-Poly1305
 
-## Status
+The local test suite covers known-answer vectors, property tests, tamper rejection, wrong keys, wrong AAD, nonce validation, benchmark structure, docs links, and claim hygiene.
 
-Current baseline layer:
-
-| Area | What exists |
-| --- | --- |
-| Baselines | AES-GCM-256, ChaCha20-Poly1305 |
-| Tests | Property tests, known-answer vectors, tamper checks, input validation, auth-failure checks |
-| Benchmarks | CSV-style rows by algorithm, operation, payload size, and throughput |
-| Docs | Threat model, roadmap, safety notes, reading list, experiment log |
-| Production use | No. Research only. |
-
-## Evidence Leaderboard
-
-This is an evidence-confidence snapshot, not a proof of security. Scores combine public standardization/review signals with local test coverage where we have it.
-
-| Rank | Algorithm | Evidence Score | Status | Local Experiments | Main Caution |
-| ---: | --- | ---: | --- | --- | --- |
-| 1 | AES-GCM-256 | 94 | recommended_baseline | vectors, properties, tamper tests, benchmarks | Nonce reuse with the same key is catastrophic |
-| 2 | AES-GCM-SIV | 91 | recommended_misuse_resistant | none yet | Not implemented in the local baseline wrapper |
-| 3 | ChaCha20-Poly1305 | 88 | recommended_baseline | vectors, properties, tamper tests, benchmarks | Nonce reuse with the same key is unsafe |
-| 4 | Ascon-AEAD128 | 85 | recommended_constrained_devices | none yet | Newer standard than AES and ChaCha20-Poly1305 |
-| 5 | XChaCha20-Poly1305 | 83 | recommended_when_available | none yet | Not a NIST standard |
-
-See the full [encryption evidence leaderboard](docs/leaderboard.md), including legacy algorithms and source tags.
-
-## Quickstart
-
-These commands assume Linux/macOS shell paths. On Windows, use the equivalent
-virtualenv activation and script paths.
+## Local Setup
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install -e ".[dev]"
-pytest
+make check
 ```
 
-## Commands
+Useful commands:
 
-Run these from the repository root after Quickstart.
-
-| Task | Command |
-| --- | --- |
-| Run tests | `.venv/bin/python -m pytest` |
-| Lint | `.venv/bin/ruff check .` |
-| Format | `.venv/bin/ruff format .` |
-| Standard check | `make check` |
-| Render leaderboard | `make leaderboard` |
-| Build docs site | `make docs-build` |
-| Serve docs locally | `make docs-serve` |
-| Benchmark smoke run | `.venv/bin/python benchmarks/bench_aead.py --iterations 10 --sizes 64 1024` |
-| Default benchmark matrix | `.venv/bin/python benchmarks/bench_aead.py` |
-| Install git hooks | `scripts/install-hooks.sh` |
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the local check and experiment workflow.
-
-The public docs site builds from `docs/` with MkDocs Material and publishes through GitHub Pages:
-
-https://authcollapse.github.io/nofucksgiven/
-
-## Development Map
-
-```mermaid
-flowchart TD
-    IDEA["Idea<br/>narrow question"]
-    STUDY["Study baseline<br/>AES-GCM, ChaCha20-Poly1305, Ascon"]
-    FAIL["Reproduce failure mode<br/>nonce reuse, tampering, weak toy rounds"]
-    EXP["Build toy experiment<br/>experiments/name"]
-    TEST["Test behavior<br/>vectors, round trip, tamper, wrong key/AAD"]
-    BENCH["Benchmark locally<br/>encrypt, decrypt, roundtrip"]
-    LOG["Record evidence<br/>method, results, caveats"]
-    REVIEW["Review before claims<br/>model, cryptanalysis, outside review"]
-
-    IDEA --> STUDY --> FAIL --> EXP --> TEST --> BENCH --> LOG --> REVIEW
+```bash
+make bench-smoke
+make docs-build
+make docs-serve
 ```
 
-For the expanded version, see [docs/development-map.md](docs/development-map.md).
+## Name
 
-## Baseline Example
+The name is about discipline, not apathy:
 
-```python
-from nofucksgiven.baselines import AeadCipher
+- No unsupported security claims.
+- No pretending benchmarks prove cryptographic safety.
+- No hiding misuse risks.
+- No calling toy experiments deployable.
+- No replacing public cryptanalysis with vibes.
 
-cipher = AeadCipher.new_aes_gcm()
-message = b"research sample"
-aad = b"context"
-
-sealed = cipher.encrypt(message, aad)
-opened = cipher.decrypt(sealed, aad)
-
-assert opened == message
-```
-
-## Benchmark Output Shape
-
-Example schema only, not measured results:
-
-```text
-algorithm,operation,payload_size,iterations,elapsed_ns,bytes_processed,mib_per_second
-aes-gcm-256,encrypt,1024,1000,1234567,1024000,791.02
-chacha20-poly1305,decrypt,1024,1000,1234567,1024000,791.02
-```
-
-Benchmark numbers are machine-local signals, not security claims.
-
-## Research Flow
-
-1. You start with a narrow question.
-2. You study the known primitive or failure mode first.
-3. You add or import test vectors.
-4. You write an isolated experiment under `experiments/`.
-5. You compare behavior against `src/nofucksgiven/baselines.py`.
-6. You record method, results, and caveats in `docs/experiment-log.md`.
-7. We treat every original construction as broken until reviewed.
-
-## Documentation
-
-- [Development map](docs/development-map.md)
-- [Encryption evidence leaderboard](docs/leaderboard.md)
-- [Research roadmap](docs/roadmap.md)
-- [Threat model](docs/threat-model.md)
-- [Safety notes](docs/safety-notes.md)
-- [Reading list](docs/reading-list.md)
-- [Experiment log template](docs/experiment-log.md)
-- [Codex workflow](docs/codex-workflow.md)
-- [Commands](docs/commands.md)
-- [Contributing](CONTRIBUTING.md)
+We do care about test vectors, threat models, public sources, reproducible experiments, and honest caveats.
 
 ## License
 
