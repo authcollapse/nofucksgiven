@@ -150,12 +150,36 @@ def _podium_card(algorithm: AlgorithmEvidence, rank: int) -> list[str]:
     ]
 
 
-def _standings_card(algorithm: AlgorithmEvidence, rank: int) -> list[str]:
+def _score_breakdown(algorithm: AlgorithmEvidence, criteria: dict[str, int]) -> list[str]:
+    labels = {
+        "standard_status": "Standard",
+        "security_margin": "Margin",
+        "auth_integrity": "Auth",
+        "misuse_resistance": "Misuse",
+        "review_maturity": "Review",
+    }
+    lines = ['  <div class="nfg-score-breakdown" aria-label="Score breakdown">']
+    for name, max_value in criteria.items():
+        value = algorithm.score_components[name]
+        label = labels.get(name, name.replace("_", " ").title())
+        lines.extend(
+            [
+                '    <div class="nfg-score-chip">',
+                f"      <span>{label}</span>",
+                f"      <strong>{value}/{max_value}</strong>",
+                "    </div>",
+            ]
+        )
+    lines.append("  </div>")
+    return lines
+
+
+def _standings_card(algorithm: AlgorithmEvidence, rank: int, criteria: dict[str, int]) -> list[str]:
     top_class = " nfg-competitor--top" if rank <= 3 else ""
     nfg_class = " nfg-competitor--nfg" if algorithm.name == "NFG-v0" else ""
     experiments = _experiment_label(algorithm.local_experiments)
     caution = algorithm.cautions[0] if algorithm.cautions else "Bring evidence before bragging."
-    return [
+    lines = [
         f'<article class="nfg-competitor{top_class}{nfg_class}">',
         f'  <div class="nfg-competitor__rank">#{rank}</div>',
         '  <div class="nfg-competitor__main">',
@@ -164,11 +188,21 @@ def _standings_card(algorithm: AlgorithmEvidence, rank: int) -> list[str]:
         "  </div>",
         f"  <div>{_status_badge(algorithm.status)}</div>",
         f'  <div class="nfg-competitor__score">{algorithm.evidence_score}</div>',
-        f'  <div class="nfg-competitor__detail"><strong>Local reps:</strong> {experiments}</div>',
-        f'  <div class="nfg-competitor__detail"><strong>Caution:</strong> {caution}</div>',
-        "</article>",
-        "",
     ]
+    lines.extend(_score_breakdown(algorithm, criteria))
+    lines.extend(
+        [
+            f'  <div class="nfg-competitor__detail"><strong>Local reps:</strong> {experiments}</div>',
+            f'  <div class="nfg-competitor__detail"><strong>Caution:</strong> {caution}</div>',
+        ]
+    )
+    lines.extend(
+        [
+            "</article>",
+            "",
+        ]
+    )
+    return lines
 
 
 def render_markdown(criteria: dict[str, int], algorithms: list[AlgorithmEvidence]) -> str:
@@ -225,7 +259,7 @@ def render_markdown(criteria: dict[str, int], algorithms: list[AlgorithmEvidence
     )
 
     for rank, algorithm in enumerate(algorithms, start=1):
-        lines.extend(_standings_card(algorithm, rank))
+        lines.extend(_standings_card(algorithm, rank, criteria))
 
     lines.extend(
         [

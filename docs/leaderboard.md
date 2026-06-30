@@ -59,6 +59,28 @@ High score means "stronger public evidence and safer default shape." It is not a
   </div>
   <div><span class="nfg-status nfg-status--go">baseline</span></div>
   <div class="nfg-competitor__score">94</div>
+  <div class="nfg-score-breakdown" aria-label="Score breakdown">
+    <div class="nfg-score-chip">
+      <span>Standard</span>
+      <strong>30/30</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Margin</span>
+      <strong>25/25</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Auth</span>
+      <strong>20/20</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Misuse</span>
+      <strong>4/10</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Review</span>
+      <strong>15/15</strong>
+    </div>
+  </div>
   <div class="nfg-competitor__detail"><strong>Local reps:</strong> vectors, round trips, tamper rejection, benchmark smoke</div>
   <div class="nfg-competitor__detail"><strong>Caution:</strong> Nonce reuse with the same key is catastrophic</div>
 </article>
@@ -71,6 +93,28 @@ High score means "stronger public evidence and safer default shape." It is not a
   </div>
   <div><span class="nfg-status nfg-status--go">misuse-resistant</span></div>
   <div class="nfg-competitor__score">91</div>
+  <div class="nfg-score-breakdown" aria-label="Score breakdown">
+    <div class="nfg-score-chip">
+      <span>Standard</span>
+      <strong>24/30</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Margin</span>
+      <strong>25/25</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Auth</span>
+      <strong>20/20</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Misuse</span>
+      <strong>10/10</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Review</span>
+      <strong>12/15</strong>
+    </div>
+  </div>
   <div class="nfg-competitor__detail"><strong>Local reps:</strong> none yet</div>
   <div class="nfg-competitor__detail"><strong>Caution:</strong> Not implemented in the current local baseline wrapper</div>
 </article>
@@ -83,6 +127,28 @@ High score means "stronger public evidence and safer default shape." It is not a
   </div>
   <div><span class="nfg-status nfg-status--go">baseline</span></div>
   <div class="nfg-competitor__score">88</div>
+  <div class="nfg-score-breakdown" aria-label="Score breakdown">
+    <div class="nfg-score-chip">
+      <span>Standard</span>
+      <strong>24/30</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Margin</span>
+      <strong>25/25</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Auth</span>
+      <strong>20/20</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Misuse</span>
+      <strong>4/10</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Review</span>
+      <strong>15/15</strong>
+    </div>
+  </div>
   <div class="nfg-competitor__detail"><strong>Local reps:</strong> vectors, round trips, tamper rejection, benchmark smoke</div>
   <div class="nfg-competitor__detail"><strong>Caution:</strong> Nonce reuse with the same key is unsafe</div>
 </article>
@@ -95,6 +161,28 @@ High score means "stronger public evidence and safer default shape." It is not a
   </div>
   <div><span class="nfg-status nfg-status--lab">constrained devices</span></div>
   <div class="nfg-competitor__score">85</div>
+  <div class="nfg-score-breakdown" aria-label="Score breakdown">
+    <div class="nfg-score-chip">
+      <span>Standard</span>
+      <strong>30/30</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Margin</span>
+      <strong>20/25</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Auth</span>
+      <strong>20/20</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Misuse</span>
+      <strong>4/10</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Review</span>
+      <strong>11/15</strong>
+    </div>
+  </div>
   <div class="nfg-competitor__detail"><strong>Local reps:</strong> none yet</div>
   <div class="nfg-competitor__detail"><strong>Caution:</strong> Newer standard than AES and ChaCha20-Poly1305</div>
 </article>
@@ -107,6 +195,28 @@ High score means "stronger public evidence and safer default shape." It is not a
   </div>
   <div><span class="nfg-status nfg-status--lab">extended nonce</span></div>
   <div class="nfg-competitor__score">83</div>
+  <div class="nfg-score-breakdown" aria-label="Score breakdown">
+    <div class="nfg-score-chip">
+      <span>Standard</span>
+      <strong>18/30</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Margin</span>
+      <strong>25/25</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Auth</span>
+      <strong>20/20</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Misuse</span>
+      <strong>7/10</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Review</span>
+      <strong>13/15</strong>
+    </div>
+  </div>
   <div class="nfg-competitor__detail"><strong>Local reps:</strong> none yet</div>
   <div class="nfg-competitor__detail"><strong>Caution:</strong> Not a NIST standard</div>
 </article>
@@ -119,6 +229,28 @@ High score means "stronger public evidence and safer default shape." It is not a
   </div>
   <div><span class="nfg-status nfg-status--lab">compose carefully</span></div>
   <div class="nfg-competitor__score">66</div>
+  <div class="nfg-score-breakdown" aria-label="Score breakdown">
+    <div class="nfg-score-chip">
+      <span>Standard</span>
+      <strong>18/30</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Margin</span>
+      <strong>20/25</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Auth</span>
+      <strong>15/20</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Misuse</span>
+      <strong>0/10</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Review</span>
+      <strong>13/15</strong>
+    </div>
+  </div>
   <div class="nfg-competitor__detail"><strong>Local reps:</strong> none yet</div>
   <div class="nfg-competitor__detail"><strong>Caution:</strong> Easy to compose incorrectly</div>
 </article>
@@ -131,6 +263,28 @@ High score means "stronger public evidence and safer default shape." It is not a
   </div>
   <div><span class="nfg-status nfg-status--lab">compose carefully</span></div>
   <div class="nfg-competitor__score">66</div>
+  <div class="nfg-score-breakdown" aria-label="Score breakdown">
+    <div class="nfg-score-chip">
+      <span>Standard</span>
+      <strong>18/30</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Margin</span>
+      <strong>20/25</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Auth</span>
+      <strong>15/20</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Misuse</span>
+      <strong>0/10</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Review</span>
+      <strong>13/15</strong>
+    </div>
+  </div>
   <div class="nfg-competitor__detail"><strong>Local reps:</strong> none yet</div>
   <div class="nfg-competitor__detail"><strong>Caution:</strong> Counter or nonce reuse is unsafe</div>
 </article>
@@ -143,6 +297,28 @@ High score means "stronger public evidence and safer default shape." It is not a
   </div>
   <div><span class="nfg-status nfg-status--avoid">avoid</span></div>
   <div class="nfg-competitor__score">40</div>
+  <div class="nfg-score-breakdown" aria-label="Score breakdown">
+    <div class="nfg-score-chip">
+      <span>Standard</span>
+      <strong>12/30</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Margin</span>
+      <strong>20/25</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Auth</span>
+      <strong>0/20</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Misuse</span>
+      <strong>0/10</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Review</span>
+      <strong>8/15</strong>
+    </div>
+  </div>
   <div class="nfg-competitor__detail"><strong>Local reps:</strong> none yet</div>
   <div class="nfg-competitor__detail"><strong>Caution:</strong> No built-in integrity</div>
 </article>
@@ -155,6 +331,28 @@ High score means "stronger public evidence and safer default shape." It is not a
   </div>
   <div><span class="nfg-status nfg-status--avoid">do not use</span></div>
   <div class="nfg-competitor__score">25</div>
+  <div class="nfg-score-breakdown" aria-label="Score breakdown">
+    <div class="nfg-score-chip">
+      <span>Standard</span>
+      <strong>5/30</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Margin</span>
+      <strong>20/25</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Auth</span>
+      <strong>0/20</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Misuse</span>
+      <strong>0/10</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Review</span>
+      <strong>0/15</strong>
+    </div>
+  </div>
   <div class="nfg-competitor__detail"><strong>Local reps:</strong> none yet</div>
   <div class="nfg-competitor__detail"><strong>Caution:</strong> Leaks repeated plaintext block patterns</div>
 </article>
@@ -167,6 +365,28 @@ High score means "stronger public evidence and safer default shape." It is not a
   </div>
   <div><span class="nfg-status nfg-status--avoid">withdrawn</span></div>
   <div class="nfg-competitor__score">15</div>
+  <div class="nfg-score-breakdown" aria-label="Score breakdown">
+    <div class="nfg-score-chip">
+      <span>Standard</span>
+      <strong>0/30</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Margin</span>
+      <strong>12/25</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Auth</span>
+      <strong>0/20</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Misuse</span>
+      <strong>0/10</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Review</span>
+      <strong>3/15</strong>
+    </div>
+  </div>
   <div class="nfg-competitor__detail"><strong>Local reps:</strong> none yet</div>
   <div class="nfg-competitor__detail"><strong>Caution:</strong> Withdrawn from NIST recommendation for TDEA</div>
 </article>
@@ -179,6 +399,28 @@ High score means "stronger public evidence and safer default shape." It is not a
   </div>
   <div><span class="nfg-status nfg-status--lab">lab build</span></div>
   <div class="nfg-competitor__score">12</div>
+  <div class="nfg-score-breakdown" aria-label="Score breakdown">
+    <div class="nfg-score-chip">
+      <span>Standard</span>
+      <strong>0/30</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Margin</span>
+      <strong>0/25</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Auth</span>
+      <strong>7/20</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Misuse</span>
+      <strong>0/10</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Review</span>
+      <strong>5/15</strong>
+    </div>
+  </div>
   <div class="nfg-competitor__detail"><strong>Local reps:</strong> deterministic datasets, vectors, round trips, tamper rejection, nonce-reuse failure demos, benchmark smoke</div>
   <div class="nfg-competitor__detail"><strong>Caution:</strong> No public cryptanalysis</div>
 </article>
@@ -191,6 +433,28 @@ High score means "stronger public evidence and safer default shape." It is not a
   </div>
   <div><span class="nfg-status nfg-status--avoid">do not use</span></div>
   <div class="nfg-competitor__score">0</div>
+  <div class="nfg-score-breakdown" aria-label="Score breakdown">
+    <div class="nfg-score-chip">
+      <span>Standard</span>
+      <strong>0/30</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Margin</span>
+      <strong>0/25</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Auth</span>
+      <strong>0/20</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Misuse</span>
+      <strong>0/10</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Review</span>
+      <strong>0/15</strong>
+    </div>
+  </div>
   <div class="nfg-competitor__detail"><strong>Local reps:</strong> none yet</div>
   <div class="nfg-competitor__detail"><strong>Caution:</strong> 56-bit key is far below modern security requirements</div>
 </article>
@@ -203,6 +467,28 @@ High score means "stronger public evidence and safer default shape." It is not a
   </div>
   <div><span class="nfg-status nfg-status--avoid">do not use</span></div>
   <div class="nfg-competitor__score">0</div>
+  <div class="nfg-score-breakdown" aria-label="Score breakdown">
+    <div class="nfg-score-chip">
+      <span>Standard</span>
+      <strong>0/30</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Margin</span>
+      <strong>0/25</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Auth</span>
+      <strong>0/20</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Misuse</span>
+      <strong>0/10</strong>
+    </div>
+    <div class="nfg-score-chip">
+      <span>Review</span>
+      <strong>0/15</strong>
+    </div>
+  </div>
   <div class="nfg-competitor__detail"><strong>Local reps:</strong> none yet</div>
   <div class="nfg-competitor__detail"><strong>Caution:</strong> Prohibited for TLS by RFC 7465</div>
 </article>

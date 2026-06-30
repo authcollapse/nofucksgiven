@@ -50,5 +50,8 @@ def test_rendered_leaderboard_contains_warning_and_rankings() -> None:
 
     assert "not a proof of security" in markdown
     assert '<div class="nfg-standings">' in markdown
+    assert '<div class="nfg-score-breakdown" aria-label="Score breakdown">' in markdown
+    assert "<span>Standard</span>" in markdown
+    assert "<strong>0/30</strong>" in markdown
     assert "AES-GCM-256" in markdown
     assert "NFG-v0" in markdown
