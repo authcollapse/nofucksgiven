@@ -49,4 +49,4 @@ when it teaches you something concrete.
 Do not claim production security from local tests. Before you make a credible
 security claim, you need a clear specification, public cryptanalysis, proofs
 where applicable, test vectors, constant-time implementation review, and
-independent review.
+independent review beyond this repository.

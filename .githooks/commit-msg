@@ -6,15 +6,8 @@ msg="$(tr '[:upper:]' '[:lower:]' < "$msg_file")"
 
 case "$msg" in
   *"secure cipher"*|*"better encryption"*|*"production crypto"*|*"unbreakable"*)
-    case "$msg" in
-      *"docs-only"*|*"baseline wrapper"*|*"test"*|*"benchmark"*|*"experiment"*)
-        exit 0
-        ;;
-      *)
-        echo "commit-msg: avoid broad crypto claims in commit messages." >&2
-        echo "Use specific wording such as docs-only, baseline wrapper, test, benchmark, or experiment." >&2
-        exit 1
-        ;;
-    esac
+    echo "commit-msg: avoid broad crypto claims in commit messages." >&2
+    echo "Use evidence-neutral wording such as: add baseline tests, document experiment, or update benchmark." >&2
+    exit 1
     ;;
 esac

@@ -140,6 +140,7 @@ def test_cross_algorithm_decrypt_is_rejected() -> None:
 
 
 def test_aes_gcm_256_known_answer_vector() -> None:
+    # NIST SP 800-38D, AES-GCM test case with zero-length plaintext and AAD.
     cipher = AeadCipher.new_aes_gcm(key=bytes(32))
 
     sealed = cipher.encrypt_with_nonce(nonce=bytes(12), plaintext=b"", aad=b"")
@@ -149,6 +150,7 @@ def test_aes_gcm_256_known_answer_vector() -> None:
 
 
 def test_chacha20_poly1305_known_answer_vector() -> None:
+    # RFC 8439, section 2.8.2 AEAD_CHACHA20_POLY1305 example.
     cipher = AeadCipher.new_chacha20_poly1305(
         key=bytes.fromhex("808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9f")
     )

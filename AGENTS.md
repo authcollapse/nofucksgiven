@@ -3,13 +3,13 @@
 ## Repository Purpose
 
 This is a cryptography research workspace, not a production encryption library.
-Treat every new construction as experimental and unsafe unless the repository
-contains a written security model, test vectors, benchmark context,
-cryptanalysis notes, and independent review evidence.
+Treat every new construction as experimental and unsafe. Repo-local evidence can
+support behavior and local performance statements. Security or production claims
+require sustained public cryptanalysis and outside adoption beyond this repo.
 
 Do not use unsupported replacement or security marketing language for
 experimental code. If you need to discuss banned phrases, keep that discussion
-clearly labeled as policy text. <!-- claim-ok: this describes wording policy -->
+clearly labeled as policy text. <!-- claim-ok: policy-text -->
 
 ## Working Rules
 
@@ -44,8 +44,8 @@ make bench-smoke
 - Benchmark change: update `tests/test_benchmarks.py` and command docs.
 - Experiment change: include hypothesis, method, results, and caveats.
 - Security/safety wording change: keep `SECURITY.md`, `docs/safety-notes.md`, and README aligned.
-- New primitive or wrapper: include known-answer tests, tamper tests, wrong-AAD tests,
-  wrong-key tests, nonce-size tests, and round-trip property tests.
+- New primitive or wrapper: include known-answer tests with source notes, tamper
+  tests, wrong-AAD tests, wrong-key tests, nonce-size tests, and round-trip property tests.
 - Benchmark claim: include CPU, OS, Python version, dependency versions,
   iterations, payload sizes, and date.
 

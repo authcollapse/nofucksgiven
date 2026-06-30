@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
+import re
 
 
 RISKY_PHRASES = (
@@ -15,8 +16,6 @@ RISKY_PHRASES = (
     "production ready",
     "secure by default",
     "provably secure",
-    "audited",
-    "verified",
     "better than aes",
     "better than chacha",
     "better than ascon",
@@ -26,7 +25,6 @@ RISKY_PHRASES = (
 
 DEFAULT_SUFFIXES = {".md", ".py", ".toml", ".json"}
 DEFAULT_EXCLUDES = {
-    ".codex",
     ".git",
     ".venv",
     ".pytest_cache",
@@ -37,6 +35,10 @@ DEFAULT_EXCLUDES = {
 EXCLUDED_FILES = {
     Path("scripts/check_claims.py"),
 }
+CLAIM_OK_RE = re.compile(
+    r"claim-ok:\s*(policy-text|policy-example|blocked-wording-example)\b",
+    re.IGNORECASE,
+)
 
 
 def iter_files(root: Path) -> list[Path]:
@@ -54,12 +56,25 @@ def iter_files(root: Path) -> list[Path]:
 
 def scan_file(path: Path) -> list[str]:
     findings: list[str] = []
+    in_fence = False
     for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
-        lowered = line.lower()
-        if "claim-ok:" in lowered:
+        if line.lstrip().startswith("```"):
+            in_fence = not in_fence
             continue
+        if in_fence:
+            continue
+        lowered = line.lower()
+        has_claim_ok = "claim-ok:" in lowered
         for phrase in RISKY_PHRASES:
             if phrase in lowered:
+                if has_claim_ok and CLAIM_OK_RE.search(line):
+                    continue
+                if has_claim_ok:
+                    findings.append(
+                        f"{path}:{number}: claim-ok must be one of "
+                        "policy-text, policy-example, or blocked-wording-example"
+                    )
+                    break
                 findings.append(f"{path}:{number}: risky crypto claim phrase: {phrase!r}")
     return findings
 

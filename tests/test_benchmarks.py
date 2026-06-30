@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import pytest
+
 from benchmarks.bench_aead import run_matrix, run_once
 from nofucksgiven.baselines import SUPPORTED_AEAD_ALGORITHMS
 
@@ -12,7 +14,7 @@ def test_run_once_returns_structured_result() -> None:
     assert result.payload_size == 16
     assert result.iterations == 1
     assert result.elapsed_ns > 0
-    assert result.bytes_processed == 16
+    assert result.bytes_processed == 32
     assert result.mib_per_second > 0
 
 
@@ -30,3 +32,20 @@ def test_run_matrix_covers_requested_algorithms_and_sizes() -> None:
         for size in (8, 32)
         for operation in ("encrypt", "decrypt")
     }
+
+
+def test_roundtrip_counts_encrypt_and_decrypt_bytes() -> None:
+    result = run_once("aes-gcm-256", payload_size=16, iterations=3, operation="roundtrip")
+
+    assert result.bytes_processed == 96
+
+
+@pytest.mark.parametrize(
+    ("payload_size", "iterations"),
+    [(0, 1), (-1, 1), (1, 0), (1, -1)],
+)
+def test_run_once_rejects_non_positive_inputs(payload_size: int, iterations: int) -> None:
+    with pytest.raises(ValueError):
+        run_once(
+            "aes-gcm-256", payload_size=payload_size, iterations=iterations, operation="encrypt"
+        )

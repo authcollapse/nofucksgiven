@@ -65,7 +65,7 @@ Keep production-facing wrappers in `src/nofucksgiven/` limited to library-backed
 
 ## Evidence Gates
 
-Before you make a performance statement, include:
+Before you make a performance statement, include real environment data:
 
 - CPU and OS.
 - Python and dependency versions.
@@ -73,4 +73,6 @@ Before you make a performance statement, include:
 - Date and command used.
 - A caveat that benchmark numbers are local evidence.
 
-Before you make a security statement, stop. You need a written security model, cryptanalysis notes, test vectors, implementation review, and outside review. Local tests are not enough.
+Before you make a security statement, stop. Local tests and repo docs are not
+enough. You need a written security model, public cryptanalysis, implementation
+review, and outside review beyond this repository.

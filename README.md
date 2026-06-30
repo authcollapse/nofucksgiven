@@ -25,6 +25,9 @@ Current baseline layer:
 
 ## Quickstart
 
+These commands assume Linux/macOS shell paths. On Windows, use the equivalent
+virtualenv activation and script paths.
+
 ```bash
 python -m venv .venv
 source .venv/bin/activate

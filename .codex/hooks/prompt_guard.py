@@ -8,13 +8,13 @@ import sys
 
 
 RISKY_CRYPTO_CLAIMS = (
-    "unbreakable",
-    "military grade",
-    "military-grade",
-    "better than aes",
-    "better than chacha",
-    "production ready",
-    "production-ready",
+    "unbreakable",  # claim-ok: blocked-wording-example
+    "military grade",  # claim-ok: blocked-wording-example
+    "military-grade",  # claim-ok: blocked-wording-example
+    "better than aes",  # claim-ok: blocked-wording-example
+    "better than chacha",  # claim-ok: blocked-wording-example
+    "production ready",  # claim-ok: blocked-wording-example
+    "production-ready",  # claim-ok: blocked-wording-example
 )
 SECRET_HINTS = (
     "api_key",

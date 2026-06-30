@@ -16,7 +16,7 @@ This runs formatting checks, linting, claim scanning, Markdown link checks, and 
 .venv/bin/python scripts/check_claims.py
 ```
 
-The claim scanner rejects risky phrases such as `unbreakable`, `production-ready`, `better than AES`, and similar wording unless the line includes `claim-ok:` with a concrete justification. <!-- claim-ok: this line documents blocked wording, not a repo claim -->
+The claim scanner rejects risky phrases such as `unbreakable`, `production-ready`, `better than AES`, and similar wording unless the line is clearly marked as policy text. <!-- claim-ok: policy-text -->
 
 ## Benchmark Smoke
 

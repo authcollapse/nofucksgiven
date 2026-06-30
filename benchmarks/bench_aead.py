@@ -9,6 +9,7 @@ from typing import Literal
 from nofucksgiven.baselines import SUPPORTED_AEAD_ALGORITHMS, AeadCipher
 
 BenchmarkOperation = Literal["encrypt", "decrypt", "roundtrip"]
+CSV_HEADER = "algorithm,operation,payload_size,iterations,elapsed_ns,bytes_processed,mib_per_second"
 
 
 @dataclass(frozen=True)
@@ -28,6 +29,11 @@ def run_once(
     iterations: int,
     operation: BenchmarkOperation,
 ) -> BenchmarkResult:
+    if payload_size <= 0:
+        raise ValueError("payload_size must be positive")
+    if iterations <= 0:
+        raise ValueError("iterations must be positive")
+
     cipher = AeadCipher.new(name)
     aad = b"benchmark"
     payload = b"x" * payload_size
@@ -48,7 +54,8 @@ def run_once(
         raise ValueError(f"unsupported benchmark operation: {operation}")
     elapsed_ns = perf_counter_ns() - start
 
-    total_bytes = payload_size * iterations
+    operation_multiplier = 2 if operation == "roundtrip" else 1
+    total_bytes = payload_size * iterations * operation_multiplier
     seconds = elapsed_ns / 1_000_000_000
     mib_per_second = total_bytes / (1024 * 1024) / seconds
     return BenchmarkResult(
@@ -76,10 +83,22 @@ def run_matrix(
     ]
 
 
+def positive_int(value: str) -> int:
+    parsed = int(value)
+    if parsed <= 0:
+        raise argparse.ArgumentTypeError("must be positive")
+    return parsed
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Benchmark AEAD baseline wrappers.")
-    parser.add_argument("--iterations", type=int, default=1000)
-    parser.add_argument("--sizes", type=int, nargs="+", default=[64, 1024, 16384, 1048576])
+    parser.add_argument("--iterations", type=positive_int, default=1000)
+    parser.add_argument(
+        "--sizes",
+        type=positive_int,
+        nargs="+",
+        default=[64, 1024, 16384, 1048576],
+    )
     parser.add_argument(
         "--algorithms",
         nargs="+",
@@ -94,7 +113,7 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    print("algorithm,operation,payload_size,iterations,elapsed_ns,bytes_processed,mib_per_second")
+    print(CSV_HEADER)
     for result in run_matrix(args.algorithms, args.sizes, args.iterations, args.operations):
         print(
             f"{result.algorithm},{result.operation},{result.payload_size},{result.iterations},"

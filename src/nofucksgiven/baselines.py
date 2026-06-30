@@ -1,4 +1,4 @@
-"""Vetted baseline AEAD wrappers for experiments.
+"""Library-backed AEAD baseline wrappers for experiments.
 
 The wrappers here intentionally use established primitives from cryptography.
 They are reference points for tests and benchmarks, not novel algorithms.
